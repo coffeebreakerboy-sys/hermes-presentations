@@ -3,1080 +3,392 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Hermes Agent — Journey & Status Report</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;510;590;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<title>Hermes Agent — System Report</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-:root {
-  --bg-deep: #010102;
-  --bg-page: #08090a;
-  --bg-panel: #0f1011;
-  --bg-surface: #191a1b;
-  --bg-elevated: rgba(255,255,255,0.03);
-  --bg-card: rgba(255,255,255,0.02);
-  --text-primary: #f7f8f8;
-  --text-secondary: #d0d6e0;
-  --text-tertiary: #8a8f98;
-  --text-muted: #62666d;
-  --border-subtle: rgba(255,255,255,0.05);
-  --border-standard: rgba(255,255,255,0.08);
-  --border-solid: #23252a;
-  --brand-indigo: #5e6ad2;
-  --brand-violet: #7170ff;
-  --brand-hover: #828fff;
-  --success: #10b981;
-  --success-bg: rgba(16,185,129,0.1);
-  --warning: #f59e0b;
-  --warning-bg: rgba(245,158,11,0.1);
-  --danger: #ef4444;
-  --radius-sm: 6px;
-  --radius-md: 8px;
-  --radius-lg: 12px;
-  --radius-pill: 9999px;
-}
-
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-html { scroll-behavior: smooth; }
-
-body {
-  font-family: 'Inter', -apple-system, system-ui, 'Segoe UI', Roboto, sans-serif;
-  font-feature-settings: 'cv01', 'ss03';
-  background: var(--bg-page);
-  color: var(--text-primary);
-  line-height: 1.6;
-  overflow-x: hidden;
-  min-height: 100vh;
-}
-
-/* === SLIDE SYSTEM === */
-.slide-container {
-  width: 100vw;
-  height: 100vh;
-  overflow: hidden;
-  position: relative;
-}
-
-.slide {
-  position: absolute;
-  top: 0; left: 0;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 80px 120px;
-  opacity: 0;
-  transform: translateY(40px);
-  transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-  overflow-y: auto;
-  pointer-events: none;
-}
-
-.slide.active {
-  opacity: 1;
-  transform: translateY(0);
-  pointer-events: all;
-}
-
-/* === NAV === */
-.nav-bar {
-  position: fixed;
-  bottom: 0; left: 0; right: 0;
-  height: 64px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 12px;
-  background: rgba(8,9,10,0.9);
-  backdrop-filter: blur(12px);
-  border-top: 1px solid var(--border-subtle);
-  z-index: 100;
-  padding: 0 24px;
-}
-
-.nav-btn {
-  background: rgba(255,255,255,0.04);
-  border: 1px solid var(--border-solid);
-  color: var(--text-secondary);
-  padding: 8px 16px;
-  border-radius: var(--radius-sm);
-  cursor: pointer;
-  font-family: 'Inter', sans-serif;
-  font-size: 14px;
-  font-weight: 510;
-  transition: all 0.2s;
-  letter-spacing: -0.165px;
-}
-
-.nav-btn:hover {
-  background: rgba(255,255,255,0.08);
-  color: var(--text-primary);
-}
-
-.nav-btn.primary {
-  background: var(--brand-indigo);
-  border-color: var(--brand-indigo);
-  color: #fff;
-}
-
-.nav-btn.primary:hover { background: var(--brand-hover); }
-
-.slide-indicators {
-  display: flex;
-  gap: 6px;
-  align-items: center;
-  margin-left: 16px;
-}
-
-.dot {
-  width: 8px; height: 8px;
-  border-radius: 50%;
-  background: rgba(255,255,255,0.12);
-  cursor: pointer;
-  transition: all 0.3s;
-  border: none;
-  padding: 0;
-}
-
-.dot.active {
-  background: var(--brand-violet);
-  width: 24px;
-  border-radius: 4px;
-}
-
-.slide-counter {
-  color: var(--text-muted);
-  font-size: 12px;
-  font-weight: 510;
-  margin-left: auto;
-  font-variant-numeric: tabular-nums;
-}
-
-/* === TYPOGRAPHY === */
-.display {
-  font-size: 64px;
-  font-weight: 510;
-  line-height: 1.0;
-  letter-spacing: -1.408px;
-  text-align: center;
-}
-
-.display-sm {
-  font-size: 48px;
-  font-weight: 510;
-  line-height: 1.0;
-  letter-spacing: -1.056px;
-}
-
-h1 {
-  font-size: 32px;
-  font-weight: 400;
-  line-height: 1.13;
-  letter-spacing: -0.704px;
-}
-
-h2 {
-  font-size: 24px;
-  font-weight: 400;
-  line-height: 1.33;
-  letter-spacing: -0.288px;
-}
-
-h3 {
-  font-size: 20px;
-  font-weight: 590;
-  line-height: 1.33;
-  letter-spacing: -0.24px;
-  color: var(--text-primary);
-}
-
-.body-lg {
-  font-size: 18px;
-  font-weight: 400;
-  line-height: 1.6;
-  letter-spacing: -0.165px;
-}
-
-.body {
-  font-size: 16px;
-  font-weight: 400;
-  line-height: 1.5;
-}
-
-.body-sm {
-  font-size: 15px;
-  font-weight: 400;
-  line-height: 1.6;
-  letter-spacing: -0.165px;
-}
-
-.caption {
-  font-size: 13px;
-  font-weight: 510;
-  line-height: 1.5;
-  letter-spacing: -0.13px;
-  color: var(--text-tertiary);
-}
-
-.label {
-  font-size: 12px;
-  font-weight: 510;
-  line-height: 1.4;
-  color: var(--text-muted);
-  text-transform: letter-spacing: 0.02em;
-}
-
-.mono {
-  font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
-  font-size: 13px;
-  font-weight: 400;
-}
-
-/* === COMPONENTS === */
-.header-accent {
-  width: 48px; height: 4px;
-  background: var(--brand-indigo);
-  border-radius: 2px;
-  margin-bottom: 32px;
-}
-
-.badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 4px 12px;
-  border-radius: var(--radius-pill);
-  font-size: 12px;
-  font-weight: 510;
-  border: 1px solid var(--border-solid);
-  background: transparent;
-  color: var(--text-secondary);
-}
-
-.badge.success {
-  background: var(--success-bg);
-  border-color: rgba(16,185,129,0.3);
-  color: var(--success);
-}
-
-.badge.warning {
-  background: var(--warning-bg);
-  border-color: rgba(245,158,11,0.3);
-  color: var(--warning);
-}
-
-.badge.brand {
-  background: rgba(94,106,210,0.1);
-  border-color: rgba(94,106,210,0.3);
-  color: var(--brand-violet);
-}
-
-.card {
-  background: var(--bg-card);
-  border: 1px solid var(--border-standard);
-  border-radius: var(--radius-md);
-  padding: 32px;
-  width: 100%;
-}
-
-.card-sm {
-  background: var(--bg-card);
-  border: 1px solid var(--border-standard);
-  border-radius: var(--radius-md);
-  padding: 24px;
-}
-
-/* === LAYOUT === */
-.row {
-  display: flex;
-  gap: 24px;
-  width: 100%;
-  max-width: 1100px;
-}
-
-.col {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-}
-
-.align-center { align-items: center; text-align: center; }
-.align-start { align-items: flex-start; text-align: left; }
-
-.gap-sm { gap: 8px; }
-.gap-md { gap: 16px; }
-.gap-lg { gap: 24px; }
-.gap-xl { gap: 32px; }
-
-.divider {
-  width: 100%;
-  height: 1px;
-  background: var(--border-subtle);
-  margin: 8px 0;
-}
-
-/* === TIMELINE === */
-.timeline {
-  display: flex;
-  gap: 0;
-  width: 100%;
-  max-width: 900px;
-}
-
-.timeline-item {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 12px;
-  position: relative;
-  padding: 0 8px;
-}
-
-.timeline-item::after {
-  content: '';
-  position: absolute;
-  top: 16px;
-  right: -50%;
-  width: 100%;
-  height: 2px;
-  background: var(--border-subtle);
-  z-index: 0;
-}
-
-.timeline-item:last-child::after { display: none; }
-
-.timeline-dot {
-  width: 32px; height: 32px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 14px;
-  position: relative;
-  z-index: 1;
-  flex-shrink: 0;
-}
-
-.timeline-dot.done {
-  background: var(--success-bg);
-  border: 1px solid rgba(16,185,129,0.4);
-  color: var(--success);
-}
-
-.timeline-dot.active {
-  background: rgba(94,106,210,0.15);
-  border: 2px solid var(--brand-indigo);
-  color: var(--brand-violet);
-  animation: pulse-dot 2s ease-in-out infinite;
-}
-
-.timeline-dot.pending {
-  background: var(--bg-surface);
-  border: 1px solid var(--border-solid);
-  color: var(--text-muted);
-}
-
-@keyframes pulse-dot {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(94,106,210,0.3); }
-  50% { box-shadow: 0 0 0 8px rgba(94,106,210,0); }
-}
-
-.timeline-label {
-  font-size: 12px;
-  font-weight: 510;
-  color: var(--text-tertiary);
-  text-align: center;
-  line-height: 1.3;
-}
-
-.timeline-date {
-  font-size: 10px;
-  color: var(--text-muted);
-  text-align: center;
-}
-
-/* === ARCH DIAGRAM === */
-.arch-layer {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 12px;
-  padding: 12px 24px;
-  border-radius: var(--radius-sm);
-  font-size: 14px;
-  font-weight: 510;
-  width: 100%;
-  max-width: 600px;
-}
-
-.layer-hermes {
-  background: rgba(94,106,210,0.1);
-  border: 1px solid rgba(94,106,210,0.3);
-  color: var(--brand-violet);
-}
-
-.layer-hindsight {
-  background: rgba(16,185,129,0.08);
-  border: 1px solid rgba(16,185,129,0.25);
-  color: var(--success);
-}
-
-.layer-gbrain {
-  background: rgba(245,158,11,0.08);
-  border: 1px solid rgba(245,158,11,0.25);
-  color: var(--warning);
-}
-
-.layer-arrow {
-  font-size: 20px;
-  color: var(--text-muted);
-  text-align: center;
-  padding: 4px 0;
-}
-
-/* === STAT GRID === */
-.stat-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 16px;
-  width: 100%;
-  max-width: 900px;
-}
-
-.stat-card {
-  background: var(--bg-card);
-  border: 1px solid var(--border-standard);
-  border-radius: var(--radius-md);
-  padding: 24px;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  align-items: center;
-  text-align: center;
-}
-
-.stat-value {
-  font-size: 36px;
-  font-weight: 590;
-  line-height: 1.0;
-  letter-spacing: -0.8px;
-  color: var(--text-primary);
-}
-
-.stat-label {
-  font-size: 12px;
-  font-weight: 510;
-  color: var(--text-tertiary);
-}
-
-.stat-sub {
-  font-size: 11px;
-  color: var(--text-muted);
-}
-
-/* === PROGRESS BAR === */
-.progress-bar {
-  width: 100%;
-  height: 6px;
-  background: var(--bg-surface);
-  border-radius: 3px;
-  overflow: hidden;
-}
-
-.progress-fill {
-  height: 100%;
-  border-radius: 3px;
-  transition: width 1s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.progress-fill.brand { background: var(--brand-indigo); }
-.progress-fill.success { background: var(--success); }
-
-/* === ITEM LIST === */
-.item-list {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  width: 100%;
-  max-width: 700px;
-}
-
-.item {
-  display: flex;
-  align-items: flex-start;
-  gap: 12px;
-  padding: 12px 16px;
-  background: var(--bg-card);
-  border: 1px solid var(--border-subtle);
-  border-radius: var(--radius-sm);
-  font-size: 14px;
-  line-height: 1.4;
-}
-
-.item-icon {
-  flex-shrink: 0;
-  width: 20px;
-  text-align: center;
-  font-size: 14px;
-  margin-top: 1px;
-}
-
-.item-text { color: var(--text-secondary); }
-.item-text strong { color: var(--text-primary); font-weight: 590; }
-
-/* === HERO === */
-.hero-icon {
-  font-size: 72px;
-  margin-bottom: 24px;
-  filter: drop-shadow(0 0 40px rgba(94,106,210,0.3));
-}
-
-.hero-subtitle {
-  font-size: 18px;
-  font-weight: 400;
-  color: var(--text-tertiary);
-  letter-spacing: -0.165px;
-  max-width: 600px;
-  text-align: center;
-  margin-top: 16px;
-}
-
-.hero-meta {
-  display: flex;
-  gap: 24px;
-  margin-top: 40px;
-  align-items: center;
-}
-
-/* === DIRECTION CARDS === */
-.dir-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 20px;
-  width: 100%;
-  max-width: 960px;
-}
-
-.dir-card {
-  background: var(--bg-card);
-  border: 1px solid var(--border-standard);
-  border-radius: var(--radius-md);
-  padding: 28px;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  transition: all 0.3s;
-  cursor: default;
-}
-
-.dir-card:hover {
-  border-color: rgba(94,106,210,0.4);
-  transform: translateY(-2px);
-}
-
-.dir-icon {
-  font-size: 28px;
-  margin-bottom: 4px;
-}
-
-.dir-title {
-  font-size: 16px;
-  font-weight: 590;
-  color: var(--text-primary);
-}
-
-.dir-desc {
-  font-size: 13px;
-  font-weight: 400;
-  color: var(--text-tertiary);
-  line-height: 1.5;
-}
-
-.status-row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin-top: 8px;
-}
-
-/* === RESPONSIVE === */
-@media (max-width: 900px) {
-  .slide { padding: 60px 40px 100px; }
-  .display { font-size: 40px; letter-spacing: -1px; }
-  .display-sm { font-size: 32px; letter-spacing: -0.7px; }
-  .stat-grid { grid-template-columns: repeat(2, 1fr); }
-  .dir-grid { grid-template-columns: 1fr; }
-  .row { flex-direction: column; }
-}
-
-/* === SCROLLBAR === */
-::-webkit-scrollbar { width: 6px; }
-::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: var(--border-solid); border-radius: 3px; }
-
-/* === PRINT === */
-@media print {
-  .nav-bar { display: none; }
-  .slide { position: relative; opacity: 1; page-break-after: always; }
-}
+:root{--bg-deep:#010102;--bg-page:#08090a;--bg-panel:#0f1011;--bg-surface:#191a1b;--bg-card:rgba(255,255,255,0.02);--bg-elevated:rgba(255,255,255,0.03);--text-primary:#f7f8f8;--text-secondary:#d0d6e0;--text-tertiary:#8a8f98;--text-muted:#62666d;--border-subtle:rgba(255,255,255,0.05);--border-standard:rgba(255,255,255,0.08);--border-solid:#23252a;--brand:#5e6ad2;--brand-accent:#7170ff;--brand-hover:#828fff;--success:#10b981;--success-bg:rgba(16,185,129,0.1);--warning:#f59e0b;--warning-bg:rgba(245,158,11,0.1);--danger:#ef4444;--radius-sm:6px;--radius-md:8px;--radius-lg:12px;--radius-pill:9999px}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;font-feature-settings:'cv01','ss03';background:var(--bg-page);color:var(--text-primary);line-height:1.6;overflow-x:hidden;min-height:100vh}
+.slide-container{width:100vw;height:100vh;overflow:hidden;position:relative}
+.slide{position:absolute;top:0;left:0;width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:72px 100px;opacity:0;transform:translateY(32px);transition:opacity .55s cubic-bezier(.16,1,.3,1),transform .55s cubic-bezier(.16,1,.3,1);overflow-y:auto;pointer-events:none}
+.slide.active{opacity:1;transform:translateY(0);pointer-events:all}
+.nav-bar{position:fixed;bottom:0;left:0;right:0;height:56px;display:flex;align-items:center;justify-content:center;gap:10px;background:rgba(8,9,10,.92);backdrop-filter:blur(12px);border-top:1px solid var(--border-subtle);z-index:100;padding:0 20px}
+.nav-btn{background:rgba(255,255,255,.04);border:1px solid var(--border-solid);color:var(--text-secondary);padding:7px 14px;border-radius:var(--radius-sm);cursor:pointer;font-family:'Inter',sans-serif;font-size:13px;font-weight:510;transition:all .2s;letter-spacing:-.165px}
+.nav-btn:hover{background:rgba(255,255,255,.08);color:var(--text-primary)}
+.nav-btn.primary{background:var(--brand);border-color:var(--brand);color:#fff}
+.nav-btn.primary:hover{background:var(--brand-hover)}
+.dots{display:flex;gap:5px;margin-left:12px}
+.dot{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,.12);cursor:pointer;transition:all .3s;border:none;padding:0}
+.dot.active{background:var(--brand-accent);width:20px;border-radius:4px}
+.counter{color:var(--text-muted);font-size:11px;font-weight:510;margin-left:auto;font-variant-numeric:tabular-nums}
+.dpy{font-size:56px;font-weight:510;line-height:1;letter-spacing:-1.408px;text-align:center}
+.dps{font-size:42px;font-weight:510;line-height:1;letter-spacing:-1.056px}
+h1{font-size:30px;font-weight:400;line-height:1.13;letter-spacing:-.704px}
+h2{font-size:22px;font-weight:400;line-height:1.33;letter-spacing:-.288px}
+h3{font-size:18px;font-weight:590;line-height:1.33;letter-spacing:-.24px;color:var(--text-primary)}
+.bl{font-size:17px;font-weight:400;line-height:1.6;letter-spacing:-.165px}
+.bd{font-size:15px;font-weight:400;line-height:1.5}
+.bs{font-size:14px;font-weight:400;line-height:1.6;letter-spacing:-.165px}
+.ca{font-size:12px;font-weight:510;line-height:1.5;letter-spacing:-.13px;color:var(--text-tertiary)}
+.la{font-size:11px;font-weight:510;line-height:1.4;color:var(--text-muted);letter-spacing:.02em}
+.mono{font-family:'JetBrains Mono',ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px}
+.accent-bar{width:40px;height:3px;background:var(--brand);border-radius:2px;margin-bottom:24px}
+.badge{display:inline-flex;align-items:center;gap:5px;padding:3px 10px;border-radius:var(--radius-pill);font-size:11px;font-weight:510;border:1px solid var(--border-solid);background:transparent;color:var(--text-secondary)}
+.badge.s{background:var(--success-bg);border-color:rgba(16,185,129,.3);color:var(--success)}
+.badge.w{background:var(--warning-bg);border-color:rgba(245,158,11,.3);color:var(--warning)}
+.badge.b{background:rgba(94,106,210,.1);border-color:rgba(94,106,210,.3);color:var(--brand-accent)}
+.card{background:var(--bg-card);border:1px solid var(--border-standard);border-radius:var(--radius-md);padding:28px}
+.card-s{background:var(--bg-card);border:1px solid var(--border-standard);border-radius:var(--radius-md);padding:20px}
+.row{display:flex;gap:20px;width:100%;max-width:1040px}
+.col{display:flex;flex-direction:column;gap:14px}
+.ac{text-align:center}.al{text-align:left}
+.g8{gap:8px}.g12{gap:12px}.g16{gap:16px}.g20{gap:20px}.g24{gap:24px}
+.divider{width:100%;height:1px;background:var(--border-subtle);margin:6px 0}
+.sg{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;width:100%;max-width:900px}
+.sc{background:var(--bg-card);border:1px solid var(--border-standard);border-radius:var(--radius-md);padding:20px;display:flex;flex-direction:column;gap:6px;align-items:center;text-align:center}
+.sv{font-size:32px;font-weight:590;line-height:1;letter-spacing:-.8px;color:var(--text-primary)}
+.sl{font-size:11px;font-weight:510;color:var(--text-tertiary)}
+.ss{font-size:10px;color:var(--text-muted)}
+.pb{width:100%;height:5px;background:var(--bg-surface);border-radius:3px;overflow:hidden}
+.pf{height:100%;border-radius:3px;transition:width 1s cubic-bezier(.16,1,.3,1)}
+.pf.br{background:var(--brand)}.pf.su{background:var(--success)}
+.il{display:flex;flex-direction:column;gap:7px;width:100%;max-width:680px}
+.ii{display:flex;align-items:flex-start;gap:10px;padding:10px 14px;background:var(--bg-card);border:1px solid var(--border-subtle);border-radius:var(--radius-sm);font-size:13px;line-height:1.4}
+.iic{flex-shrink:0;width:18px;text-align:center;font-size:13px;margin-top:1px}
+.iit{color:var(--text-secondary)}.iit strong{color:var(--text-primary);font-weight:590}
+.arch{display:flex;align-items:center;justify-content:center;gap:10px;padding:10px 20px;border-radius:var(--radius-sm);font-size:13px;font-weight:510;width:100%;max-width:560px}
+.arch-h{background:rgba(94,106,210,.1);border:1px solid rgba(94,106,210,.3);color:var(--brand-accent)}
+.arch-g{background:rgba(16,185,129,.08);border:1px solid rgba(16,185,129,.25);color:var(--success)}
+.arch-b{background:rgba(245,158,11,.08);border:1px solid rgba(245,158,11,.25);color:var(--warning)}
+.arch-a{font-size:18px;color:var(--text-muted);text-align:center;padding:2px 0}
+.dg{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;width:100%;max-width:900px}
+.dc{background:var(--bg-card);border:1px solid var(--border-standard);border-radius:var(--radius-md);padding:24px;display:flex;flex-direction:column;gap:10px;transition:all .3s;cursor:default}
+.dc:hover{border-color:rgba(94,106,210,.4);transform:translateY(-2px)}
+.di{font-size:24px;margin-bottom:2px}
+.dt{font-size:15px;font-weight:590;color:var(--text-primary)}
+.dd{font-size:12px;font-weight:400;color:var(--text-tertiary);line-height:1.5}
+.sr{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+.hero-icon{font-size:64px;margin-bottom:20px;filter:drop-shadow(0 0 32px rgba(94,106,210,.3))}
+.hero-sub{font-size:16px;font-weight:400;color:var(--text-tertiary);letter-spacing:-.165px;max-width:560px;text-align:center;margin-top:12px}
+.hero-meta{display:flex;gap:16px;margin-top:32px;align-items:center}
+.tl{display:flex;gap:0;width:100%;max-width:860px}
+.ti{flex:1;display:flex;flex-direction:column;align-items:center;gap:10px;position:relative;padding:0 6px}
+.ti::after{content:'';position:absolute;top:14px;right:-50%;width:100%;height:2px;background:var(--border-subtle);z-index:0}
+.ti:last-child::after{display:none}
+.td{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;position:relative;z-index:1;flex-shrink:0}
+.td.done{background:var(--success-bg);border:1px solid rgba(16,185,129,.4);color:var(--success)}
+.td.active{background:rgba(94,106,210,.15);border:2px solid var(--brand);color:var(--brand-accent);animation:pulse 2s ease-in-out infinite}
+.td.pending{background:var(--bg-surface);border:1px solid var(--border-solid);color:var(--text-muted)}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(94,106,210,.3)}50%{box-shadow:0 0 0 7px rgba(94,106,210,0)}}
+.tll{font-size:11px;font-weight:510;color:var(--text-tertiary);text-align:center;line-height:1.3}
+.tld{font-size:9px;color:var(--text-muted);text-align:center}
+@media(max-width:860px){
+  .slide{padding:56px 28px 90px}
+  .dpy{font-size:36px;letter-spacing:-.8px}
+  .dps{font-size:28px;letter-spacing:-.6px}
+  .sg{grid-template-columns:repeat(2,1fr)}
+  .dg{grid-template-columns:1fr}
+  .row{flex-direction:column}
+  .tl{overflow-x:auto}
+  .ti{min-width:72px}
+}
+::-webkit-scrollbar{width:5px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(--border-solid);border-radius:3px}
 </style>
 </head>
 <body>
-
 <div class="slide-container">
 
-<!-- ===== SLIDE 1: COVER ===== -->
+<!-- SLIDE 1: COVER -->
 <div class="slide active" id="s1">
-  <div class="align-center">
+  <div class="ac g24">
     <div class="hero-icon">🦉</div>
-    <div class="display">Hermes Agent</div>
-    <div style="font-size: 24px; color: var(--brand-violet); font-weight: 510; letter-spacing: -0.288px; margin-top: 8px;">Journey & Status Report</div>
-    <div class="hero-subtitle">
-      From first install to a fully autonomous AI agent — a complete retrospective of what was built, what was learned, and where we're headed.
-    </div>
+    <div class="dpy">Hermes Agent</div>
+    <div style="font-size:22px;color:var(--brand-accent);font-weight:510;letter-spacing:-.288px;margin-top:6px;">System Status Report</div>
+    <div class="hero-sub">Complete overview of what's running, what was built, what broke, and what's next — all on day one.</div>
     <div class="hero-meta">
       <span class="badge">📅 May 31, 2026</span>
       <span class="badge">🪟 Windows 10</span>
-      <span class="badge brand">⚡ Live & Learning</span>
+      <span class="badge b">⚡ Day Zero</span>
     </div>
   </div>
 </div>
 
-<!-- ===== SLIDE 2: SESSION STATS ===== -->
+<!-- SLIDE 2: SESSION STATS -->
 <div class="slide" id="s2">
-  <div class="align-center gap-xl" style="width:100%;max-width:960px;">
-    <h1>Session Activity Overview</h1>
-    <p class="body-lg" style="color: var(--text-tertiary); text-align:center; max-width:600px;">
-      Across all channels and interfaces since first boot
-    </p>
-    <div class="stat-grid">
-      <div class="stat-card">
-        <div class="stat-value" style="color: var(--brand-violet);">10+</div>
-        <div class="stat-label">Total Sessions</div>
-        <div class="stat-sub">Discord, CLI, Cron</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-value" style="color: var(--success);">500+</div>
-        <div class="stat-label">Messages</div>
-        <div class="stat-sub">User & Agent</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-value" style="color: var(--warning);">20+</div>
-        <div class="stat-label">Skills Installed</div>
-        <div class="stat-sub">Matt Pocock, HTML, Design</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-value">1M</div>
-        <div class="stat-label">Token Context</div>
-        <div class="stat-sub">Nemotron 3 Super</div>
-      </div>
+  <div class="ac g24" style="width:100%;max-width:900px">
+    <h1>Activity Overview</h1>
+    <p class="bl" style="color:var(--text-tertiary);text-align:center;max-width:500px">All channels, all interfaces — since first boot</p>
+    <div class="sg">
+      <div class="sc"><div class="sv" style="color:var(--brand-accent)">11</div><div class="sl">Sessions</div><div class="ss">Discord · CLI · Cron</div></div>
+      <div class="sc"><div class="sv" style="color:var(--success)">550+</div><div class="sl">Messages</div><div class="ss">User &amp; Agent</div></div>
+      <div class="sc"><div class="sv" style="color:var(--warning)">20+</div><div class="sl">Skills</div><div class="ss">Matt Pocock · HTML · Design</div></div>
+      <div class="sc"><div class="sv">1M</div><div class="sl">Token Context</div><div class="ss">Nemotron 3 Super</div></div>
     </div>
     <div class="divider"></div>
-    <div class="row" style="justify-content:center;">
-      <div class="card-sm" style="min-width:280px;">
-        <div class="caption" style="margin-bottom:8px;">📡 Model</div>
-        <div class="body" style="color:var(--text-primary);">nvidia/nemotron-3-super-120b-a12b:free</div>
-        <div class="body-sm" style="color:var(--text-muted);">via OpenRouter</div>
+    <div class="row" style="justify-content:center">
+      <div class="card-s" style="min-width:240px">
+        <div class="ca" style="margin-bottom:6px">📡 Active Model</div>
+        <div class="bs" style="color:var(--text-primary)">nvidia/nemotron-3-super-120b-a12b:free</div>
+        <div class="bs" style="color:var(--text-muted)">via OpenRouter — 1M context</div>
       </div>
-      <div class="card-sm" style="min-width:280px;">
-        <div class="caption" style="margin-bottom:8px;">🎯 Context Usage (This Session)</div>
-        <div class="progress-bar">
-          <div class="progress-fill brand" style="width: 7%;"></div>
-        </div>
-        <div class="body-sm" style="color:var(--text-muted); margin-top:4px;">~7% of 1M tokens</div>
+      <div class="card-s" style="min-width:240px">
+        <div class="ca" style="margin-bottom:6px">🔄 Auto-Handoff</div>
+        <div class="badge s" style="margin-bottom:4px">● Active</div>
+        <div class="bs" style="color:var(--text-muted)">Cron every 20 min · 45% threshold</div>
       </div>
-      <div class="card-sm" style="min-width:280px;">
-        <div class="caption" style="margin-bottom:8px;">🔄 Handoff System</div>
-        <div class="badge success">● Active</div>
-        <div class="body-sm" style="color:var(--text-muted); margin-top:4px;">Cron every 20 min • 45% threshold</div>
+      <div class="card-s" style="min-width:240px">
+        <div class="ca" style="margin-bottom:6px">🧹 Cleanup Job</div>
+        <div class="badge s" style="margin-bottom:4px">● Active</div>
+        <div class="bs" style="color:var(--text-muted)">7-day retention on presentations</div>
       </div>
     </div>
   </div>
 </div>
 
-<!-- ===== SLIDE 3: TIMELINE ===== -->
+<!-- SLIDE 3: TIMELINE -->
 <div class="slide" id="s3">
-  <div class="align-center gap-xl" style="width:100%;max-width:960px;">
-    <h1>Timeline: Day Zero</h1>
-    <p class="body-lg" style="color: var(--text-tertiary); text-align:center;">May 31, 2026 — from first "hello" to full system</p>
-    <div class="timeline">
-      <div class="timeline-item">
-        <div class="timeline-dot done">1</div>
-        <div class="timeline-label">First Contact</div>
-        <div class="timeline-date">12:30 PM</div>
-      </div>
-      <div class="timeline-item">
-        <div class="timeline-dot done">2</div>
-        <div class="timeline-label">Skills Install</div>
-        <div class="timeline-date">1:00 PM</div>
-      </div>
-      <div class="timeline-item">
-        <div class="timeline-dot done">3</div>
-        <div class="timeline-label">Windows Opt.</div>
-        <div class="timeline-date">3:00 PM</div>
-      </div>
-      <div class="timeline-item">
-        <div class="timeline-dot done">4</div>
-        <div class="timeline-label">Memory Setup</div>
-        <div class="timeline-date">4:00 PM</div>
-      </div>
-      <div class="timeline-item">
-        <div class="timeline-dot done">5</div>
-        <div class="timeline-label">Handoff System</div>
-        <div class="timeline-date">5:00 PM</div>
-      </div>
-      <div class="timeline-item">
-        <div class="timeline-dot done">6</div>
-        <div class="timeline-label">Computer Use</div>
-        <div class="timeline-date">5:30 PM</div>
-      </div>
-      <div class="timeline-item">
-        <div class="timeline-dot active">7</div>
-        <div class="timeline-label">Hosting Setup</div>
-        <div class="timeline-date">Now</div>
-      </div>
-      <div class="timeline-item">
-        <div class="timeline-dot pending">8</div>
-        <div class="timeline-label">Gbrain</div>
-        <div class="timeline-date">→ Next</div>
-      </div>
+  <div class="ac g24" style="width:100%;max-width:900px">
+    <h1>Day Zero Timeline</h1>
+    <p class="bl" style="color:var(--text-tertiary);text-align:center">May 31, 2026 — from "hello" to full system</p>
+    <div class="tl">
+      <div class="ti"><div class="td done">1</div><div class="tll">First Contact</div><div class="tld">~11 AM</div></div>
+      <div class="ti"><div class="td done">2</div><div class="tll">Skills Install</div><div class="tld">12:30 PM</div></div>
+      <div class="ti"><div class="td done">3</div><div class="tll">Windows Opt.</div><div class="tld">1:00 PM</div></div>
+      <div class="ti"><div class="td done">4</div><div class="tll">Presentation</div><div class="tld">3:00 PM</div></div>
+      <div class="ti"><div class="td done">5</div><div class="tll">GitHub Pages</div><div class="tld">5:00 PM</div></div>
+      <div class="ti"><div class="td done">6</div><div class="tll">Discord Fix</div><div class="tld">7:20 PM</div></div>
+      <div class="ti"><div class="td active">7</div><div class="tll">Memory Sync</div><div class="tld">→ Now</div></div>
+      <div class="ti"><div class="td pending">8</div><div class="tll">Gbrain</div><div class="tld">Next</div></div>
     </div>
     <div class="divider"></div>
-    <div class="row" style="justify-content:center;">
-      <span class="badge success">✓ 6 Phases Complete</span>
-      <span class="badge brand">● In Progress</span>
-      <span class="badge">○ 2 Pending</span>
+    <div class="row" style="justify-content:center;gap:10px">
+      <span class="badge s">✓ 6 Complete</span>
+      <span class="badge b">● In Progress</span>
+      <span class="badge">○ 1 Pending</span>
     </div>
   </div>
 </div>
 
-<!-- ===== SLIDE 4: WHAT WE BUILT ===== -->
+<!-- SLIDE 4: WHAT WE BUILT -->
 <div class="slide" id="s4">
-  <div class="align-start gap-xl" style="width:100%;max-width:900px;">
-    <div style="width:100%;">
-      <h1>What We Built</h1>
-      <p class="body-lg" style="color: var(--text-tertiary); margin-top:8px;">Systems, integrations, and automations deployed</p>
-    </div>
+  <div class="al g20" style="width:100%;max-width:900px">
+    <div style="width:100%"><h1>What We Built</h1><p class="bl" style="color:var(--text-tertiary);margin-top:6px">Systems, integrations, and automations deployed</p></div>
     <div class="row">
-      <div class="col" style="flex:1; gap:12px;">
-        <h3>🧠 Memory Systems</h3>
-        <div class="item-list">
-          <div class="item"><span class="item-icon">✓</span><span class="item-text"><strong>Built-in memory</strong> — user preferences, environment facts (MEMORY.md, USER.md)</span></div>
-          <div class="item"><span class="item-icon">✓</span><span class="item-text"><strong>Hindsight provider</strong> — local-embedded mode, JSON shim (no cloud/API keys)</span></div>
-          <div class="item"><span class="item-icon">✓</span><span class="item-text"><strong>Auto-handoff</strong> — dynamic context detection, cron every 20 min</span></div>
-          <div class="item"><span class="item-icon">○</span><span class="item-text"><strong>Gbrain</strong> — knowledge graph brain (planned next)</span></div>
+      <div class="col" style="flex:1;gap:10px">
+        <h3>🧠 Memory</h3>
+        <div class="il">
+          <div class="ii"><span class="iic">✓</span><span class="iit"><strong>Built-in</strong> — user prefs, env facts, 11 entries</span></div>
+          <div class="ii"><span class="iic">✓</span><span class="iit"><strong>Hindsight</strong> — local_embedded, JSON shim, 11 facts</span></div>
+          <div class="ii"><span class="iic">✓</span><span class="iit"><strong>Auto-handoff</strong> — context monitor, cron 20 min</span></div>
+          <div class="ii"><span class="iic" style="color:var(--text-muted)">○</span><span class="iit"><strong>Gbrain</strong> — knowledge graph (planned)</span></div>
         </div>
       </div>
-      <div class="col" style="flex:1; gap:12px;">
+      <div class="col" style="flex:1;gap:10px">
         <h3>⚙️ Infrastructure</h3>
-        <div class="item-list">
-          <div class="item"><span class="item-icon">✓</span><span class="item-text"><strong>Discord gateway</strong> — debugged & connected to Herme's Server</span></div>
-          <div class="item"><span class="item-icon">✓</span><span class="item-text"><strong>Windows 10 optimized</strong> — startup programs, performance tuning</span></div>
-          <div class="item"><span class="item-icon">✓</span><span class="item-text"><strong>Computer use</strong> — screenshot, mouse control, pyautogui</span></div>
-          <div class="item"><span class="item-icon">✓</span><span class="item-text"><strong>GitHub Pages</strong> — repo created, presentation hosting live</span></div>
+        <div class="il">
+          <div class="ii"><span class="iic">✓</span><span class="iit"><strong>Discord gateway</strong> — DNS fix, connected as hermes#0528</span></div>
+          <div class="ii"><span class="iic">✓</span><span class="iit"><strong>Windows opt.</strong> — high perf, services trimmed, YOLO mode</span></div>
+          <div class="ii"><span class="iic">✓</span><span class="iit"><strong>Computer use</strong> — pyautogui, screenshot, mouse control</span></div>
+          <div class="ii"><span class="iic">✓</span><span class="iit"><strong>GitHub Pages</strong> — permanent hosting, auto-upload pipeline</span></div>
         </div>
       </div>
     </div>
     <div class="divider"></div>
-    <div class="card-sm" style="width:100%;">
-      <div class="row" style="align-items:center; justify-content:space-between;">
+    <div class="card-s" style="width:100%">
+      <div class="row" style="align-items:center;justify-content:space-between">
         <div>
-          <span class="caption">Saved Skills</span>
-          <div class="body" style="margin-top:4px;">mattpocock/skills • html-everything • claude-design • popular-web-designs • windows-computer-use • handoff-command • auto-handoff • +14 more</div>
+          <div class="ca" style="margin-bottom:4px">Installed Skills</div>
+          <div class="bs" style="color:var(--text-secondary)">mattpocock/skills · html-everything · claude-design · popular-web-designs · windows-computer-use · handoff-command · auto-handoff · caveman · design-md · excalidraw · obsidian + more</div>
         </div>
-        <span class="badge success">● 20+</span>
+        <span class="badge s">20+</span>
       </div>
     </div>
   </div>
 </div>
 
-<!-- ===== SLIDE 5: MEMORY ARCHITECTURE ===== -->
+<!-- SLIDE 5: MEMORY ARCHITECTURE -->
 <div class="slide" id="s5">
-  <div class="align-center gap-xl" style="width:100%;max-width:800px;">
+  <div class="ac g24" style="width:100%;max-width:760px">
     <h1>Memory Architecture</h1>
-    <p class="body-lg" style="color: var(--text-tertiary); text-align:center;">Three layers working together for compounding intelligence</p>
-    <div style="display:flex; flex-direction:column; gap:0; align-items:center; width:100%;">
-      <div class="arch-layer layer-hermes" style="max-width:500px;">
-        <span>⚡</span>
-        <span><strong>Hermes Built-in</strong> — Session-scoped, always-on</span>
-      </div>
-      <div class="layer-arrow">↕ hybrid</div>
-      <div class="arch-layer layer-hindsight" style="max-width:500px;">
-        <span>🧠</span>
-        <span><strong>Hindsight</strong> — Persistent, vector-backed, local</span>
-      </div>
-      <div class="layer-arrow">↕ periodic import</div>
-      <div class="arch-layer layer-gbrain" style="max-width:500px;">
-        <span>🔗</span>
-        <span><strong>Gbrain</strong> — Knowledge graph, synthesis, dream cycles</span>
-      </div>
+    <p class="bl" style="color:var(--text-tertiary);text-align:center">Three layers for compounding intelligence</p>
+    <div style="display:flex;flex-direction:column;gap:0;align-items:center;width:100%">
+      <div class="arch arch-h" style="max-width:480px"><span>⚡</span><span><strong>Hermes Built-in</strong> — Session-scoped, always-on</span></div>
+      <div class="arch-a">↕ hybrid</div>
+      <div class="arch arch-g" style="max-width:480px"><span>🧠</span><span><strong>Hindsight</strong> — Persistent, local, phrase-matched</span></div>
+      <div class="arch-a">↕ planned</div>
+      <div class="arch arch-b" style="max-width:480px"><span>🔗</span><span><strong>Gbrain</strong> — Knowledge graph, synthesis, dream cycles</span></div>
     </div>
     <div class="divider"></div>
-    <div class="row" style="justify-content:center;">
-      <div class="card-sm" style="min-width:200px;">
-        <div class="caption" style="margin-bottom:6px;">Built-in Memory</div>
-        <div class="body" style="color:var(--text-primary); font-weight:590;">1,714 / 2,200 chars</div>
-        <div class="progress-bar" style="margin-top:6px;">
-          <div class="progress-fill brand" style="width:77%;"></div>
-        </div>
+    <div class="row" style="justify-content:center">
+      <div class="card-s" style="min-width:180px">
+        <div class="ca" style="margin-bottom:4px">Built-in Memory</div>
+        <div class="bd" style="color:var(--text-primary);font-weight:590">11 entries</div>
+        <div class="pb" style="margin-top:4px"><div class="pf br" style="width:78%"></div></div>
+        <div class="bs" style="color:var(--text-muted)">~80% of 2,200 chars</div>
       </div>
-      <div class="card-sm" style="min-width:200px;">
-        <div class="caption" style="margin-bottom:6px;">Hindsight Status</div>
-        <div class="badge success" style="margin-top:4px;">● Available</div>
-        <div class="body-sm" style="color:var(--text-muted); margin-top:4px;">local_embedded • hybrid</div>
+      <div class="card-s" style="min-width:180px">
+        <div class="ca" style="margin-bottom:4px">Hindsight Facts</div>
+        <div class="badge s" style="margin-top:2px">● Synced</div>
+        <div class="bs" style="color:var(--text-muted);margin-top:4px">11 canonical facts stored</div>
       </div>
-      <div class="card-sm" style="min-width:200px;">
-        <div class="caption" style="margin-bottom:6px;">Gbrain</div>
-        <div class="badge warning" style="margin-top:4px;">○ Not installed</div>
-        <div class="body-sm" style="color:var(--text-muted); margin-top:4px;">Bun + API keys needed</div>
+      <div class="card-s" style="min-width:180px">
+        <div class="ca" style="margin-bottom:4px">Gbrain</div>
+        <div class="badge w" style="margin-top:2px">○ Not installed</div>
+        <div class="bs" style="color:var(--text-muted);margin-top:4px">Needs Bun + API keys</div>
       </div>
     </div>
   </div>
 </div>
 
-<!-- ===== SLIDE 6: HOW MEMORY WORKS ===== -->
+<!-- SLIDE 6: CHALLENGES -->
 <div class="slide" id="s6">
-  <div class="align-start gap-xl" style="width:100%;max-width:900px;">
-    <h1>How Memory Syncs</h1>
-    <p class="body-lg" style="color: var(--text-tertiary);">The flow of information across sessions</p>
-    <div class="row">
-      <div class="col" style="flex:1;">
-        <div class="card-sm">
-          <div class="body" style="font-weight:590; margin-bottom:12px; color:var(--text-primary);">Session Start</div>
-          <div class="body-sm" style="color:var(--text-secondary); line-height:1.6;">
-            <strong style="color:var(--brand-violet);">1.</strong> Hermes loads USER.md & MEMORY.md<br><br>
-            <strong style="color:var(--brand-violet);">2.</strong> Hindsight recalls relevant facts<br><br>
-            <strong style="color:var(--brand-violet);">3.</strong> Context injected automatically<br><br>
-            <strong style="color:var(--brand-violet);">4.</strong> Agent already "knows" you
-          </div>
-        </div>
-      </div>
-      <div class="col" style="flex:1;">
-        <div class="card-sm">
-          <div class="body" style="font-weight:590; margin-bottom:12px; color:var(--text-primary);">During Session</div>
-          <div class="body-sm" style="color:var(--text-secondary); line-height:1.6;">
-            <strong style="color:var(--success);">1.</strong> You share preferences/facts<br><br>
-            <strong style="color:var(--success);">2.</strong> Agent learns patterns<br><br>
-            <strong style="color:var(--success);">3.</strong> Critical learnings saved via memory tool<br><br>
-            <strong style="color:var(--success);">4.</strong> Hindsight retains for future recall
-          </div>
-        </div>
-      </div>
-      <div class="col" style="flex:1;">
-        <div class="card-sm">
-          <div class="body" style="font-weight:590; margin-bottom:12px; color:var(--text-primary);">Cross-Session</div>
-          <div class="body-sm" style="color:var(--text-secondary); line-height:1.6;">
-            <strong style="color:var(--warning);">1.</strong> Handoff docs capture context<br><br>
-            <strong style="color:var(--warning);">2.</strong> Cron monitors at 45% threshold<br><br>
-            <strong style="color:var(--warning);">3.</strong> New session loads prior state<br><br>
-            <strong style="color:var(--warning);">4.</strong> Work continues seamlessly
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="card-sm" style="width:100%;">
-      <div class="row" style="gap:32px; align-items:flex-start;">
-        <div>
-          <div class="caption" style="margin-bottom:6px;">Key Learnings Saved</div>
-          <div class="body-sm" style="color:var(--text-secondary);">
-            • Prefers concise, action-oriented responses<br>
-            • UI-based methods over registry edits (Windows)<br>
-            • Minimal Google API scopes (Sheets-only)<br>
-            • Business-level HTML presentations (this deck!)<br>
-            • Wants Hermes to learn & improve over time
-          </div>
-        </div>
-        <div>
-          <div class="caption" style="margin-bottom:6px;">What Gets Tracked</div>
-          <div class="body-sm" style="color:var(--text-secondary);">
-            • NOT saved: task progress, PR numbers, temporary TODOs<br>
-            • SAVED: preferences, environment facts, tool quirks<br>
-            • PROCEDURES → saved as skills, not memory<br>
-            • Memory limit: ~1.375 KB for user prefs
-          </div>
-        </div>
-      </div>
+  <div class="al g20" style="width:100%;max-width:860px">
+    <h1>Problems Solved</h1>
+    <p class="bl" style="color:var(--text-tertiary)">6 bugs fixed, 0 open</p>
+    <div class="il" style="gap:8px">
+      <div class="ii"><span class="iic" style="color:var(--success)">✓</span><span class="iit"><strong>Hindsight import error</strong> — Missing hindsight package on Windows. Built JSON-file shim to replace torch/VC++ dependency. File locking added to prevent deadlocks.</span></div>
+      <div class="ii"><span class="iic" style="color:var(--success)">✓</span><span class="iit"><strong>Discord gateway DNS failure</strong> — aiohttp 3.13.x broke with raw aiodns.DNSResolver(). Fixed: use aiohttp.AsyncResolver(). Downgraded aiodns 4→3.</span></div>
+      <div class="ii"><span class="iic" style="color:var(--success)">✓</span><span class="iit"><strong>GitHub PAT special chars</strong> — Token broke bash curl quoting. Switched to Python urllib.request with direct env read.</span></div>
+      <div class="ii"><span class="iic" style="color:var(--success)">✓</span><span class="iit"><strong>Hosting services down</strong> — transfer.sh, 0x0.st, tmpfiles.org, file.io all failed. Pivoted to GitHub Pages for permanent hosting.</span></div>
+      <div class="ii"><span class="iic" style="color:var(--success)">✓</span><span class="iit"><strong>Hindsight memory bloat</strong> — 46 entries (24 raw conv dumps). Cleaned to 11 canonical facts, deduplicated both layers.</span></div>
+      <div class="ii"><span class="iic" style="color:var(--success)">✓</span><span class="iit"><strong>Windows services trimmed</strong> — SysMain, DiagTrack, dmwappushservice, WerSvc disabled. Preserved Discord, Hermes, AnyDesk.</span></div>
     </div>
   </div>
 </div>
 
-<!-- ===== SLIDE 7: CHALLENGES ===== -->
+<!-- SLIDE 7: CRON JOBS -->
 <div class="slide" id="s7">
-  <div class="align-start gap-xl" style="width:100%;max-width:900px;">
-    <h1>Challenges Encountered</h1>
-    <p class="body-lg" style="color: var(--text-tertiary);">Problems solved and lessons learned</p>
-    <div class="item-list" style="gap:10px;">
-      <div class="item">
-        <span class="item-icon" style="color:var(--success);">✓</span>
-        <span class="item-text"><strong>Hindsight import error</strong> — Missing <code class="mono">hindsight</code> package. Built a JSON-file shim to replace torch/VC++ dependency. Provider now local-embedded ✓</span>
+  <div class="al g20" style="width:100%;max-width:860px">
+    <h1>Automated Jobs</h1>
+    <p class="bl" style="color:var(--text-tertiary)">Two cron jobs keep the system running autonomously</p>
+    <div class="row">
+      <div class="card" style="flex:1">
+        <div class="ca" style="margin-bottom:8px">🔄 Auto-Handoff Monitor</div>
+        <div class="bs" style="color:var(--text-secondary);margin-bottom:10px">Monitors session context usage every 20 minutes. Triggers handoff recommendation when estimated usage exceeds 45% of the 1M token window.</div>
+        <div class="sr">
+          <span class="badge s">● Active</span>
+          <span class="badge">Every 20 min</span>
+          <span class="badge">Forever</span>
+        </div>
+        <div class="divider" style="margin:10px 0"></div>
+        <div class="mono" style="color:var(--text-muted)">Job ID: d91801152031</div>
+        <div class="mono" style="color:var(--text-muted)">Last status: OK</div>
       </div>
-      <div class="item">
-        <span class="item-icon" style="color:var(--success);">✓</span>
-        <span class="item-text"><strong>GitHub PAT scope</strong> — First token lacked <code class="mono">repo</code> scope. Created correct token via .env file. Repo & Pages now live ✓</span>
+      <div class="card" style="flex:1">
+        <div class="ca" style="margin-bottom:8px">🧹 Presentation Cleanup</div>
+        <div class="bs" style="color:var(--text-secondary);margin-bottom:10px">Scans ~/AppData/Local/hermes/presentations/ and deletes any .html files older than 7 days. Keeps local disk clean; GitHub Pages retains the latest.</div>
+        <div class="sr">
+          <span class="badge s">● Active</span>
+          <span class="badge">Every 24 hours</span>
+          <span class="badge">Forever</span>
+        </div>
+        <div class="divider" style="margin:10px 0"></div>
+        <div class="mono" style="color:var(--text-muted)">Job ID: bf8cdde0119c</div>
+        <div class="mono" style="color:var(--text-muted)">Schedule: every 1440 min</div>
       </div>
-      <div class="item">
-        <span class="item-icon" style="color:var(--success);">✓</span>
-        <span class="item-text"><strong>Hosting services down</strong> — transfer.sh, 0x0.st, tmpfiles.org, file.io all failed. Pivoted to GitHub Pages for permanent hosting ✓</span>
-      </div>
-      <div class="item">
-        <span class="item-icon" style="color:var(--success);">✓</span>
-        <span class="item-text"><strong>Discord gateway failures</strong> — DNS resolution issue on restart. Fixed via debugging skills ✓</span>
-      </div>
-      <div class="item">
-        <span class="item-icon" style="color:var(--success);">✓</span>
-        <span class="item-text"><strong>Shell token mangling</strong> — Special chars in PAT broke shell commands. Switched to Python urllib with direct token in variable ✓</span>
-      </div>
-      <div class="item">
-        <span class="item-icon" style="color:var(--warning);">⚠</span>
-        <span class="item-text"><strong>Discord CDN expiry</strong> — Attachment URLs return 404 after time. Lesson: never use CDN links for permanent hosting</span>
-      </div>
+    </div>
+    <div class="card-s" style="width:100%">
+      <div class="ca" style="margin-bottom:4px">📦 Current Presentations</div>
+      <div class="bs" style="color:var(--text-secondary)">hermes_report_v2.html (this deck) · hermes_journey.html (v1)</div>
+      <div class="bs" style="color:var(--text-muted)">Hosted at: https://coffeebreakerboy-sys.github.io/hermes-presentations/</div>
     </div>
   </div>
 </div>
 
-<!-- ===== SLIDE 8: WHAT'S NEXT ===== -->
+<!-- SLIDE 8: ROADMAP -->
 <div class="slide" id="s8">
-  <div class="align-center gap-xl" style="width:100%;max-width:960px;">
+  <div class="ac g24" style="width:100%;max-width:900px">
     <h1>Where We're Headed</h1>
-    <p class="body-lg" style="color: var(--text-tertiary); text-align:center;">The roadmap for Hermes to become a truly compounding AI assistant</p>
-    <div class="dir-grid">
-      <div class="dir-card">
-        <div class="dir-icon">🔗</div>
-        <div class="dir-title">Gbrain Integration</div>
-        <div class="dir-desc">Install via Bun, point at markdown notes, get synthesized answers with citations. Dream cycle for auto-consolidation.</div>
-        <div class="status-row">
-          <span class="badge warning">Needs: Bun + API keys</span>
-        </div>
+    <p class="bl" style="color:var(--text-tertiary);text-align:center">The roadmap for a truly compounding AI assistant</p>
+    <div class="dg">
+      <div class="dc">
+        <div class="di">🔗</div>
+        <div class="dt">Gbrain Integration</div>
+        <div class="dd">Install via Bun, point at markdown notes, get synthesized answers with citations.</div>
+        <div class="sr"><span class="badge w">Needs: Bun + API keys</span></div>
       </div>
-      <div class="dir-card">
-        <div class="dir-icon">📊</div>
-        <div class="dir-title">Google Sheets Automation</div>
-        <div class="dir-desc">OAuth already configured. Build interactive Discord→Sheets CRUD workflows with minimal scopes.</div>
-        <div class="status-row">
-          <span class="badge warning">Needs: OAuth consent screen</span>
-        </div>
+      <div class="dc">
+        <div class="di">📊</div>
+        <div class="dt">Google Sheets Automation</div>
+        <div class="dd">Discord → Sheets CRUD with minimal OAuth scopes (Sheets-only access).</div>
+        <div class="sr"><span class="badge w">Needs: OAuth consent screen</span></div>
       </div>
-      <div class="dir-card">
-        <div class="dir-icon">🎨</div>
-        <div class="dir-title">Presentation Pipeline</div>
-        <div class="dir-desc">Every report auto-generated as business HTML deck, pushed to GitHub Pages, link delivered via Discord. Zero manual steps.</div>
-        <div class="status-row">
-          <span class="badge success">Infrastructure ✓</span>
-        </div>
+      <div class="dc">
+        <div class="di">🎨</div>
+        <div class="dt">Presentation Pipeline</div>
+        <div class="dd">Every report auto-generated as business HTML deck, pushed to GitHub Pages, link in Discord.</div>
+        <div class="sr"><span class="badge s">Infrastructure ✓</span></div>
       </div>
-      <div class="dir-card">
-        <div class="dir-icon">🤖</div>
-        <div class="dir-title">Autonomous QA</div>
-        <div class="dir-desc">Dogfood skill for exploratory QA of web apps. Find bugs, generate evidence, auto-fix PRs.</div>
-        <div class="status-row">
-          <span class="badge">Skill available</span>
-        </div>
+      <div class="dc">
+        <div class="di">🤖</div>
+        <div class="dt">Autonomous QA</div>
+        <div class="dd">Dogfood skill for exploratory QA. Find bugs, generate evidence, auto-fix PRs.</div>
+        <div class="sr"><span class="badge">Skill available</span></div>
       </div>
-      <div class="dir-card">
-        <div class="dir-icon">🔄</div>
-        <div class="dir-title">Self-Improving Loop</div>
-        <div class="dir-desc">Every session → extract patterns → save to memory → recall next time. Hermes gets smarter with every interaction.</div>
-        <div class="status-row">
-          <span class="badge success">Foundation ✓</span>
-        </div>
+      <div class="dc">
+        <div class="di">🔄</div>
+        <div class="dt">Self-Improving Loop</div>
+        <div class="dd">Every session → extract patterns → save to memory → recall next time.</div>
+        <div class="sr"><span class="badge s">Foundation ✓</span></div>
       </div>
-      <div class="dir-card">
-        <div class="dir-icon">🏠</div>
-        <div class="dir-title">Smart Home Control</div>
-        <div class="dir-desc">OpenHue skill ready. Control lights, scenes from Discord. Voice-like commands via text.</div>
-        <div class="status-row">
-          <span class="badge">Skill available</span>
-        </div>
+      <div class="dc">
+        <div class="di">🏠</div>
+        <div class="dt">Smart Home Control</div>
+        <div class="dd">OpenHue skill ready. Control lights, scenes from Discord.</div>
+        <div class="sr"><span class="badge">Skill available</span></div>
       </div>
     </div>
   </div>
 </div>
 
-<!-- ===== SLIDE 9: CLOSING ===== -->
+<!-- SLIDE 9: CLOSING -->
 <div class="slide" id="s9">
-  <div class="align-center gap-lg">
-    <div style="font-size:64px; margin-bottom:16px;">🚀</div>
-    <div class="display-sm">Ready for What's Next</div>
-    <p class="body-lg" style="color: var(--text-tertiary); max-width:500px; text-align:center; margin-top:8px;">
-      Hermes is installed, configured, and learning. Every session makes it smarter. Let's build.
-    </p>
-    <div style="margin-top:32px; display:flex; gap:12px; justify-content:center; flex-wrap:wrap;">
-      <span class="badge success">🦉 Hermes</span>
-      <span class="badge success">🧠 Hindsight</span>
-      <span class="badge success">🔄 Auto-Handoff</span>
-      <span class="badge success">🖥️ Windows Opt.</span>
-      <span class="badge success">🎨 Design Pipeline</span>
-      <span class="badge success">📡 Discord</span>
-      <span class="badge success">🔧 20+ Skills</span>
-      <span class="badge brand">🔗 Gbrain → next</span>
+  <div class="ac g16">
+    <div style="font-size:56px;margin-bottom:12px">🚀</div>
+    <div class="dps">Ready for What's Next</div>
+    <p class="bl" style="color:var(--text-tertiary);max-width:480px;text-align:center;margin-top:6px">Hermes is installed, configured, and learning. Every session makes it smarter.</p>
+    <div style="margin-top:24px;display:flex;gap:8px;justify-content:center;flex-wrap:wrap">
+      <span class="badge s">🦉 Hermes</span>
+      <span class="badge s">🧠 Hindsight</span>
+      <span class="badge s">🔄 Auto-Handoff</span>
+      <span class="badge s">🖥️ Windows Opt.</span>
+      <span class="badge s">🎨 Design Pipeline</span>
+      <span class="badge s">📡 Discord</span>
+      <span class="badge s">🔧 20+ Skills</span>
+      <span class="badge b">🔗 Gbrain → next</span>
     </div>
-    <div class="divider" style="max-width:400px; margin:32px auto;"></div>
-    <p class="body-sm" style="color: var(--text-muted); text-align:center;">
-      Hosted at <span style="color:var(--brand-violet);">coffeebreakerboy-sys.github.io/hermes-presentations/</span><br>
-      Auto-cleanup: 7-day retention on local files
+    <div class="divider" style="max-width:360px;margin:24px auto"></div>
+    <p class="bs" style="color:var(--text-muted);text-align:center">
+      Hosted at <span style="color:var(--brand-accent)">coffeebreakerboy-sys.github.io/hermes-presentations/</span><br>
+      Auto-cleanup: 7-day retention · Memory synced: 11 facts in both layers
     </p>
   </div>
 </div>
 
-</div><!-- end slide-container -->
-
-<!-- ===== NAV ===== -->
-<div class="nav-bar">
-  <button class="nav-btn" onclick="prevSlide()">◀ Prev</button>
-  <button class="nav-btn primary" onclick="nextSlide()">Next ▶</button>
-  <div class="slide-indicators" id="indicators"></div>
-  <div class="slide-counter" id="counter">1 / 9</div>
 </div>
-
+<div class="nav-bar">
+  <button class="nav-btn" onclick="prv()">◀ Prev</button>
+  <button class="nav-btn primary" onclick="nxt()">Next ▶</button>
+  <div class="dots" id="dots"></div>
+  <div class="counter" id="ctr">1 / 9</div>
+</div>
 <script>
-const slides = document.querySelectorAll('.slide');
-const indicators = document.getElementById('indicators');
-const counter = document.getElementById('counter');
-let current = 0;
-
-// Build indicators
-slides.forEach((_, i) => {
-  const dot = document.createElement('button');
-  dot.className = 'dot' + (i === 0 ? ' active' : '');
-  dot.setAttribute('aria-label', 'Go to slide ' + (i + 1));
-  dot.onclick = () => goTo(i);
-  indicators.appendChild(dot);
-});
-
-function update() {
-  slides.forEach((s, i) => {
-    s.classList.toggle('active', i === current);
-  });
-  document.querySelectorAll('.dot').forEach((d, i) => {
-    d.classList.toggle('active', i === current);
-  });
-  counter.textContent = (current + 1) + ' / ' + slides.length;
-}
-
-function nextSlide() { if (current < slides.length - 1) { current++; update(); } }
-function prevSlide() { if (current > 0) { current--; update(); } }
-function goTo(i) { current = i; update(); }
-
-document.addEventListener('keydown', e => {
-  if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'Enter') nextSlide();
-  if (e.key === 'ArrowLeft') prevSlide();
-});
-
-// Save/restore position
-const saved = localStorage.getItem('hermes-preso-slide');
-if (saved) { current = parseInt(saved); update(); }
-window.addEventListener('beforeunload', () => localStorage.setItem('hermes-preso-slide', current));
-
-// Touch support
-let touchStartX = 0;
-document.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; });
-document.addEventListener('touchend', e => {
-  const dx = e.changedTouches[0].clientX - touchStartX;
-  if (Math.abs(dx) > 60) { dx < 0 ? nextSlide() : prevSlide(); }
-});
+const S=document.querySelectorAll('.slide'),D=document.getElementById('dots'),C=document.getElementById('ctr');
+let cur=0;
+S.forEach((_,i)=>{const d=document.createElement('button');d.className='dot'+(i===0?' active':'');d.onclick=()=>go(i);D.appendChild(d)});
+function up(){S.forEach((s,i)=>s.classList.toggle('active',i===cur));D.querySelectorAll('.dot').forEach((d,i)=>d.classList.toggle('active',i===cur));C.textContent=(cur+1)+' / '+S.length}
+function nxt(){if(cur<S.length-1){cur++;up()}}
+function prv(){if(cur>0){cur--;up()}}
+function go(i){cur=i;up()}
+document.addEventListener('keydown',e=>{if(e.key==='ArrowRight'||e.key===' '||e.key==='Enter')nxt();if(e.key==='ArrowLeft')prv()});
+const sv=localStorage.getItem('preso-slide');if(sv){cur=parseInt(sv);up()}
+window.addEventListener('beforeunload',()=>localStorage.setItem('preso-slide',cur));
+let tx=0;
+document.addEventListener('touchstart',e=>tx=e.touches[0].clientX);
+document.addEventListener('touchend',e=>{const dx=e.changedTouches[0].clientX-tx;if(Math.abs(dx)>55){dx<0?nxt():prv()}});
 </script>
-
 </body>
 </html>
