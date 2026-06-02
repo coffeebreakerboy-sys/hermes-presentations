@@ -1,0 +1,54 @@
+
+HINDSIGHT MEMORY SYSTEM (Local Embedded - Windows 10)
+══════════════════════════════════════════════════════════════════════════
+
+┌─────────────────────────────┐
+│   CONVERSATION INPUT        │
+│   (User-Agent Interaction)  │
+└─────────────────────────────┘
+       │
+       ▼ Extract Facts
+┌─────────────────────────────┐
+│   FACT EXTRACTION           │
+│   • Entity recognition      │
+│   • Preference detection    │
+│   • Environment facts       │
+│   • Tool usage patterns     │
+└─────────────────────────────┘
+       │
+       ▼
+┌─────────────────────────────┐
+│   STRUCTURED STORAGE        │
+│   • JSON files (shim)       │
+│   • Entity resolution       │
+│   • Relationship mapping    │
+│   • Tagging system          │
+└─────────────────────────────┘
+       │
+       ▼ Index for Retrieval
+┌─────────────────────────────┐
+│   MEMORY INDEXING           │
+│   • Semantic vectors        │
+│   • Keyword indices         │
+│   • Entity graph            │
+│   • Temporal ordering       │
+└─────────────────────────────┘
+       │
+       ▼ On Recall Request
+┌─────────────────────────────┐
+│   SMART RETRIEVAL           │
+│   • Phrase matching (local) │
+│   • Semantic search         │
+│   • Graph traversal         │
+│   • Re-ranking              │
+└─────────────────────────────┘
+       │
+       ▼
+┌─────────────────────────────┐
+│   RELEVANT MEMORIES         │
+│   Returned to context       │
+└─────────────────────────────┘
+       │
+       ▼ Enhances Current Session
+
+VALUE: Learns from interactions, remembers preferences, improves over time
