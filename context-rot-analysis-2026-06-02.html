@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Context Analysis Report — Larry COO</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #0a0a0a; color: #e0e0e0; font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace; padding: 40px 60px; line-height: 1.6; }
+  h1 { color: #ff6b6b; font-size: 1.8em; border-bottom: 2px solid #ff6b6b; padding-bottom: 12px; margin-bottom: 30px; }
+  h2 { color: #ffd93d; font-size: 1.2em; margin: 30px 0 15px; text-transform: uppercase; letter-spacing: 2px; }
+  h3 { color: #6bcb77; font-size: 1em; margin: 20px 0 10px; }
+  .section { background: #111; border: 1px solid #222; border-radius: 8px; padding: 20px; margin-bottom: 20px; }
+  .metric-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 20px; }
+  .metric { background: #1a1a1a; border: 1px solid #333; border-radius: 6px; padding: 16px; text-align: center; }
+  .metric .value { font-size: 2em; font-weight: bold; }
+  .metric .label { font-size: 0.75em; color: #888; margin-top: 4px; text-transform: uppercase; letter-spacing: 1px; }
+  .red { color: #ff6b6b; }
+  .yellow { color: #ffd93d; }
+  .green { color: #6bcb77; }
+  .blue { color: #4ecdc4; }
+  .bar-container { background: #1a1a1a; border-radius: 4px; height: 32px; margin: 8px 0; position: relative; overflow: hidden; }
+  .bar { height: 100%; border-radius: 4px; display: flex; align-items: center; padding-left: 10px; font-size: 0.8em; font-weight: bold; transition: width 0.3s; }
+  .bar-hindsight { background: linear-gradient(90deg, #ff6b6b, #ee5a5a); }
+  .bar-soul { background: linear-gradient(90deg, #4ecdc4, #44b3ab); }
+  .bar-tools { background: linear-gradient(90deg, #ffd93d, #f0c420); color: #000; }
+  .bar-skills { background: linear-gradient(90deg, #6bcb77, #5ab868); }
+  .bar-inbuilt { background: linear-gradient(90deg, #a78bfa, #8b5cf6); }
+  .bar-conversation { background: linear-gradient(90deg, #60a5fa, #3b82f6); }
+  table { width: 100%; border-collapse: collapse; margin: 10px 0; }
+  th { background: #1a1a1a; color: #ffd93d; text-align: left; padding: 8px 12px; font-size: 0.8em; text-transform: uppercase; letter-spacing: 1px; border-bottom: 1px solid #333; }
+  td { padding: 8px 12px; border-bottom: 1px solid #1a1a1a; font-size: 0.85em; }
+  tr:hover { background: #1a1a1a; }
+  .tag { display: inline-block; padding: 2px 8px; border-radius: 3px; font-size: 0.75em; font-weight: bold; margin: 2px; }
+  .tag-dead { background: #3d1a1a; color: #ff6b6b; border: 1px solid #ff6b6b33; }
+  .tag-alive { background: #1a3d1a; color: #6bcb77; border: 1px solid #6bcb7733; }
+  .tag-stale { background: #3d3d1a; color: #ffd93d; border: 1px solid #ffd93d33; }
+  .verdict { font-size: 1.1em; padding: 16px; border-radius: 6px; margin-top: 20px; }
+  .verdict-bad { background: #3d1a1a; border: 1px solid #ff6b6b; }
+  .verdict-warn { background: #3d3d1a; border: 1px solid #ffd93d; }
+  .code { background: #1a1a1a; padding: 2px 6px; border-radius: 3px; font-size: 0.9em; }
+  ul { padding-left: 20px; }
+  li { margin: 4px 0; font-size: 0.9em; }
+  .highlight { background: #ff6b6b22; padding: 2px 4px; border-radius: 2px; }
+  .timestamp { color: #666; font-size: 0.75em; }
+</style>
+</head>
+<body>
+
+<h1>🔍 Context Window Analysis Report</h1>
+<p style="color:#888; margin-bottom:30px;">Generated: 2026-06-02 | Session: mimo-v2.5-free via OpenCode Zen | Est. total: ~31K tokens</p>
+
+<!-- TOP-LINE METRICS -->
+<div class="metric-grid">
+  <div class="metric">
+    <div class="value red">~31K</div>
+    <div class="label">Est. Context Used</div>
+  </div>
+  <div class="metric">
+    <div class="value yellow">~8–10K</div>
+    <div class="label">Hindsight (60+ entries)</div>
+  </div>
+  <div class="metric">
+    <div class="value blue">~12–15K</div>
+    <div class="label">System + SOUL.md</div>
+  </div>
+  <div class="metric">
+    <div class="value green">~6–8K</div>
+    <div class="label">Tool Definitions</div>
+  </div>
+</div>
+
+<!-- TOKEN BUDGET BREAKDOWN -->
+<h2>📊 Token Budget Breakdown (estimated)</h2>
+<div class="section">
+  <table>
+    <tr><th>Component</th><th>Est. Tokens</th><th>% of 31K</th><th>Status</th></tr>
+    <tr><td>SOUL.md (persona, creed, rules)</td><td>~4,500</td><td>15%</td><td><span class="tag tag-alive">ESSENTIAL</span></td></tr>
+    <tr><td>Tool definitions (30+ tools)</td><td>~6,500</td><td>21%</td><td><span class="tag tag-alive">SYSTEM</span></td></tr>
+    <tr><td>Skills list (100+ entries)</td><td>~2,500</td><td>8%</td><td><span class="tag tag-stale">BLOATED</span></td></tr>
+    <tr><td>Available Skills prompt injection</td><td>~2,000</td><td>6%</td><td><span class="tag tag-stale">SYSTEM-IMPOSED</span></td></tr>
+    <tr><td>Memory.md (inbuilt)</td><td>~900</td><td>3%</td><td><span class="tag tag-alive">COMPACT</span></td></tr>
+    <tr><td>User.md (Daler profile)</td><td>~700</td><td>2%</td><td><span class="tag tag-alive">COMPACT</span></td></tr>
+    <tr><td>Hindsight Memory (60+ entries)</td><td><strong class="red">~8,500</strong></td><td><strong class="red">27%</strong></td><td><span class="tag tag-dead">🔴 PRIMARY ROT</span></td></tr>
+    <tr><td>Current conversation</td><td>~100</td><td>&lt;1%</td><td><span class="tag tag-alive">CLEAN</span></td></tr>
+    <tr><td>Browser/Computer tools</td><td>~3,500</td><td>11%</td><td><span class="tag tag-alive">SYSTEM</span></td></tr>
+    <tr><td>Kanban/Delegation tools</td><td>~2,800</td><td>9%</td><td><span class="tag tag-alive">SYSTEM</span></td></tr>
+  </table>
+
+  <h3>Visual Distribution</h3>
+  <div style="margin-top:10px;">
+    <div class="bar-container"><div class="bar bar-hindsight" style="width:27%;">27% — Hindsight Memory (ROT)</div></div>
+    <div class="bar-container"><div class="bar bar-tools" style="width:21%;">21% — Tool Definitions</div></div>
+    <div class="bar-container"><div class="bar bar-soul" style="width:15%;">15% — SOUL.md</div></div>
+    <div class="bar-container"><div class="bar bar-conversation" style="width:11%;">11% — Browser/Computer</div></div>
+    <div class="bar-container"><div class="bar bar-skills" style="width:14%;">14% — Skills List</div></div>
+    <div class="bar-container"><div class="bar bar-inbuilt" style="width:5%;">5% — Memory + User</div></div>
+  </div>
+</div>
+
+<!-- HINDSIGHT DEEP DIVE -->
+<h2>🔴 Hindsight Memory — The Primary Rot Source</h2>
+<div class="section">
+  <p><strong>60+ entries</strong> consuming an estimated <strong class="red">~8,500 tokens</strong> — nearly <strong class="red">27%</strong> of the context window.</p>
+  <p style="margin-top:10px;">Most entries are from <span class="highlight">May 31 – June 1</span> and are now stale. Here's the breakdown:</p>
+
+  <h3 style="margin-top:20px;">Dead / Irrelevant Entries (should be pruned)</h3>
+  <table>
+    <tr><th>Entry</th><th>Age</th><th>Why Dead</th></tr>
+    <tr><td>Model switch to qwen3.6-plus-free / minimax-m3-free / big-pickle</td><td>1–2 days</td><td>Stale — model changes are ephemeral session state, not durable memory</td></tr>
+    <tr><td>Individual kanban task IDs (t_74e719ba, t_dbfe77b3, etc.)</td><td>1–2 days</td><td>Task-specific, stale, not reusable across sessions</td></tr>
+    <tr><td>TTS research details (Coqui, Piper, Kokoro specs)</td><td>1–2 days</td><td>Research artifacts — should live in a skill or GBrain page, not context</td></tr>
+    <tr><td>Memory crisis / Claude process details (4.6GB)</td><td>2 days</td><td>Resolved issue, ephemeral system state</td></tr>
+    <tr><td>Cron job scheduling / verify-deliverable setup</td><td>1–2 days</td><td>Operational detail, stale</td></tr>
+    <tr><td>Department leader audit results</td><td>2 days</td><td>One-time report, not reusable</td></tr>
+    <tr><td>GBrain MCP env fixes (GBRAIN_HOME, PATH)</td><td>2 days</td><td>Setup detail, should be in a config skill</td></tr>
+    <tr><td>Session handoff protocol creation</td><td>1–2 days</td><td>The protocol exists as a skill now — no need to remember it was created</td></tr>
+    <tr><td>Technical Writer (Alex) hiring details</td><td>1–2 days</td><td>Org detail, should live in ORG.md not Hindsight</td></tr>
+    <tr><td>Veronica's Phase 1–5 verification findings</td><td>1–2 days</td><td>One-time analysis, stale</td></tr>
+    <tr><td>Creative Director profile creation</td><td>2 days</td><td>Org detail, belongs in ORG.md</td></tr>
+    <tr><td>Hindsight Retain/Recall/Reflect test results</td><td>1–2 days</td><td>Test verification, not durable knowledge</td></tr>
+  </table>
+
+  <h3 style="margin-top:20px;">Still-Alive Entries (worth keeping)</h3>
+  <table>
+    <tr><th>Entry</th><th>Why Alive</th></tr>
+    <tr><td>Daler prefers "Duh lair (daler)" — pronunciation</td><td>User preference, durable</td></tr>
+    <tr><td>TTS routing: Edge primary → Kokoro secondary → Piper fallback</td><td>Standing decision</td></tr>
+    <tr><td>Larry orchestrates, never implements — SOUL.md correction</td><td>Critical behavioral rule</td></tr>
+    <tr><td>Kanban board ↔ GitHub Projects state machine</td><td>Standing workflow</td></tr>
+    <tr><td>All nine departments hard-copy work complete</td><td>Org status</td></tr>
+    <tr><td>Daler installed html-anything, impeccable, ui-ux-pro-max</td><td>Standing config</td></tr>
+    <tr><td>DELEGATION MODEL in leader SOUL.mds</td><td>Standing org decision</td></tr>
+    <tr><td>Free-first, never auto-pay — standing rule</td><td>Core principle</td></tr>
+    <tr><td>awesome-design-md stored in GBrain</td><td>Resource pointer</td></tr>
+  </table>
+
+  <p style="margin-top:15px; color:#888;">
+    <strong>Ratio:</strong> ~9 entries worth keeping out of 60+ total = <span class="red">~85% of Hindsight is dead weight</span>
+  </p>
+</div>
+
+<!-- ROT CONTRIBUTORS -->
+<h2>🗑️ Full Rot Inventory</h2>
+<div class="section">
+  <table>
+    <tr><th>#</th><th>Source</th><th>Est. Tokens</th><th>Rot Level</th><th>Action Needed</th></tr>
+    <tr><td>1</td><td>Hindsight Memory — stale entries</td><td class="red">~7,000</td><td><span class="tag tag-dead">CRITICAL</span></td><td>Prune 50+ dead entries, retain ~9</td></tr>
+    <tr><td>2</td><td>Skills list (100+ skill names)</td><td class="yellow">~2,500</td><td><span class="tag tag-stale">MODERATE</span></td><td>System-injected; can't trim but adds noise</td></tr>
+    <tr><td>3</td><td>Duplicate Hindsight entries (same topic multiple times)</td><td class="red">~1,500</td><td><span class="tag tag-dead">HIGH</span></td><td>Dedup during prune</td></tr>
+    <tr><td>4</td><td>Ephemeral session state (model switches, cron IDs)</td><td class="yellow">~1,000</td><td><span class="tag tag-stale">MODERATE</span></td><td>Should never have been retained</td></tr>
+    <tr><td>5</td><td>Browser/computer_use tool definitions</td><td>~3,500</td><td><span class="tag tag-alive">NONE</span></td><td>System — can't remove</td></tr>
+    <tr><td>6</td><td>SOUL.md (persona + rules)</td><td>~4,500</td><td><span class="tag tag-alive">NONE</span></td><td>Essential — this is the brain</td></tr>
+  </table>
+</div>
+
+<!-- IMPACT -->
+<h2>⚡ Impact Assessment</h2>
+<div class="section">
+  <h3>What context rot costs you:</h3>
+  <ul>
+    <li><strong>~8,500 tokens of Hindsight</strong> — 27% of the window — spent on stale TTS research, old task IDs, and resolved system issues</li>
+    <li><strong>Reduced reasoning headroom</strong> — with 27% consumed by dead memory, there's less space for actual thinking, tool output, and code</li>
+    <li><strong>Confusion risk</strong> — stale entries (model switches, old task IDs) could cause the model to reference outdated state</li>
+    <li><strong>Potential hallucination trigger</strong> — when context is bloated, models sometimes "fill in" plausible but wrong details</li>
+  </ul>
+
+  <h3 style="margin-top:20px;">Recovery potential:</h3>
+  <table>
+    <tr><th>If pruned...</th><th>Tokens freed</th><th>New headroom</th></tr>
+    <tr><td>Hindsight: keep only 9 alive entries</td><td class="green">~7,000</td><td>31K → ~24K base, +7K for thinking</td></tr>
+    <tr><td>Hindsight: full clean slate</td><td class="green">~8,500</td><td>31K → ~22.5K base, +8.5K for thinking</td></tr>
+  </table>
+</div>
+
+<!-- VERDICT -->
+<div class="verdict verdict-bad">
+  <strong class="red">VERDICT: 27% of context is dead weight.</strong><br><br>
+  The primary culprit is <strong>Hindsight Memory</strong> — 60+ entries where ~85% are stale
+  (old TTS research, resolved system issues, ephemeral session state, one-time reports).<br><br>
+  <strong class="yellow">Recommendation:</strong> Run a Hindsight prune — retain only the ~9 entries
+  that encode durable preferences, standing decisions, or core behavioral rules.
+  This frees ~7K tokens (22% of window) for actual reasoning and tool output.<br><br>
+  <em>This report is analysis only. No actions taken per Daler's instruction.</em>
+</div>
+
+</body>
+</html>
