@@ -1,0 +1,38 @@
+
+WEBHOOK SUBSCRIPTIONS FLOW
+══════════════════════════════════════════════════════════════════════════
+
+External Event Source
+       │
+       ▼
+[GitHub Push] ────────┐
+       │              │
+       ▼              ▼
+[Discord Message]  [File System Change]
+       │              │
+       ▼              ▼
+┌─────────────────────────────┐
+│   WEBHOOK ENDPOINT          │
+│   (HTTP Listener)           │
+└─────────────────────────────┘
+       │
+       ▼
+┌─────────────────────────────┐
+│   HERMES AGENT              │
+│   [Triggered Automatically] │
+└─────────────────────────────┘
+       │
+       ▼
+┌─────────────────────────────┐
+│   EXECUTE WORKFLOW          │
+│                             │
+│   • Fetch PR details        │
+│   • Run analysis            │
+│   • Generate summary        │
+│   • Post comment/update     │
+└─────────────────────────────┘
+       │
+       ▼
+[Result: Automated Response]
+
+VALUE: Eliminates manual monitoring and response time
