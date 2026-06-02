@@ -1,0 +1,54 @@
+
+SESSION ITERATOR FOR LARGE TRANSCRIPTS
+══════════════════════════════════════════════════════════════════════════
+
+           LARGE SESSION
+      (10,000+ messages)
+       ╭─────────────────╮
+       │  Messages 1-10k │
+       ╰─────────────────╯
+                   │
+                   ▼ Process in Batches
+    ┌─────────────────────────────┐
+    │   BATCH 1: Messages 1-100   │
+    │   • FTS5 search             │
+    │   • Context extraction      │
+    │   • Summary generation      │
+    └─────────────────────────────┘
+                   │
+                   ▼
+    ┌─────────────────────────────┐
+    │   BATCH 2: Messages 101-200 │
+    │   • FTS5 search             │
+    │   • Context extraction      │
+    │   • Summary generation      │
+    └─────────────────────────────┘
+                   │
+                         ... (continues)
+                   ▼
+    ┌─────────────────────────────┐
+    │   BATCH N: Messages 9901-10k│
+    │   • FTS5 search             │
+    │   • Context extraction      │
+    │   • Summary generation      │
+    └─────────────────────────────┘
+                   │
+                   ▼ Combine Results
+    ┌─────────────────────────────┐
+    │   AGGREGATE INSIGHTS        │
+    │   • Cross-batch themes      │
+    │   • Timeline reconstruction │
+    │   • Decision tracking       │
+    │   • Action item consolidation│
+    └─────────────────────────────┘
+                   │
+                   ▼
+    ┌─────────────────────────────┐
+    │   FINAL ANALYSIS REPORT     │
+    │   • Trends over time        │
+    │   • Key decisions made      │
+    │   • Outstanding questions   │
+    │   • Recommended next steps  │
+    └─────────────────────────────┘
+
+VALUE: Enables processing of massive conversation histories
