@@ -1,0 +1,56 @@
+
+DELEGATE TASK MULTI-AGENT SYSTEM
+══════════════════════════════════════════════════════════════════════════
+
+           MAIN AGENT (Orchestrator)
+           ╭─────────────────────────╮
+           │  Complex Goal:          │
+           │  "Research & Compare   │
+           │   Two Technologies"     │
+           ╰─────────────────────────╯
+                   │
+                   ▼ Delegate Tasks
+    ┌─────────────────────────────┐
+    │   CREATE SUBAGENT 1         │
+    │   • Isolated context        │
+    │   • Specific toolset        │
+    │   • Goal: Research Tech A   │
+    └─────────────────────────────┘
+                   │
+                   ▼
+    ┌─────────────────────────────┐
+    │   CREATE SUBAGENT 2         │
+    │   • Isolated context        │
+    │   • Specific toolset        │
+    │   • Goal: Research Tech B   │
+    └─────────────────────────────┘
+                   │
+                   ▼ Run in Parallel
+    ┌─────────────────────────────┐    ┌─────────────────────────────┐
+    │   SUBAGENT 1 WORKS          │    │   SUBAGENT 2 WORKS          │
+    │   • Searches docs           │    │   • Searches docs           │
+    │   • Analyzes features       │    │   • Analyzes features       │
+    │   • Takes notes             │    │   • Takes notes             │
+    └─────────────────────────────┘    └─────────────────────────────┘
+                   │                         │
+                   ▼ Return Results          ▼ Return Results
+    ┌─────────────────────────────┐    ┌─────────────────────────────┐
+    │   SUMMARY: Tech A Findings  │    │   SUMMARY: Tech B Findings  │
+    └─────────────────────────────┘    └─────────────────────────────┘
+                   │                         │
+                   └───────────┬─────────────┘
+                               ▼
+                    ┌─────────────────────────┐
+                    │   MAIN AGENT SYNTHESIZES │
+                    │   • Compare findings     │
+                    │   • Identify tradeoffs   │
+                    │   • Generate recommendation│
+                    └─────────────────────────┘
+                               │
+                               ▼
+                    ┌─────────────────────────┐
+                    │   FINAL COMPREHENSIVE   │
+                    │      REPORT RETURNED    │
+                    └─────────────────────────┘
+
+VALUE: Enables parallel processing without context overflow
