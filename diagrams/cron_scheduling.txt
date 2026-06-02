@@ -1,0 +1,53 @@
+
+CRON JOB SCHEDULING
+══════════════════════════════════════════════════════════════════════════
+
+┌─────────────────────────────┐
+│   HERMES SCHEDULER          │
+│   (Runs in Background)      │
+└─────────────────────────────┘
+       │
+       ▼ Every Schedule Interval
+┌─────────────────────────────┐
+│   TRIGGER CHECK             │
+│   "Is it time to run?"      │
+└─────────────────────────────┘
+       │
+       ▼ Yes
+┌─────────────────────────────┐
+│   LOAD JOB CONFIG           │
+│   • Prompt                  │
+│   • Required skills         │
+│   • Schedule info           │
+└─────────────────────────────┘
+       │
+       ▼
+┌─────────────────────────────┐
+│   CREATE FRESH SESSION      │
+│   (Clean context)           │
+└─────────────────────────────┘
+       │
+       ▼
+┌─────────────────────────────┐
+│   LOAD REQUIRED SKILLS      │
+│   (In specified order)      │
+└─────────────────────────────┘
+       │
+       ▼
+┌─────────────────────────────┐
+│   EXECUTE JOB PROMPT        │
+│   (Your task instructions)  │
+└─────────────────────────────┘
+       │
+       ▼
+┌─────────────────────────────┐
+│   SAVE RESULTS              │
+│   • Output to file          │
+│   • Send notification       │
+│   • Update memory           │
+└─────────────────────────────┘
+       │
+       ▼
+[Next Scheduled Run]
+
+VALUE: Automates repetitive tasks without manual intervention
