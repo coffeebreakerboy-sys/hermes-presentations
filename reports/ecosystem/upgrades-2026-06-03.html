@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hermes ecosystem upgrades — 2026-06-03</title><style>*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;line-height:1.6;color:#2c3e50;background:#f8fafc}
+.container{max-width:1100px;margin:0 auto;padding:2rem}
+header{background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);color:#fff;padding:3rem 2rem;border-radius:12px;margin-bottom:2rem;box-shadow:0 10px 30px rgba(0,0,0,.1)}
+header h1{font-size:2.2rem;font-weight:700;line-height:1.15;margin-bottom:.75rem}
+.subtitle{font-size:1.1rem;opacity:.92;font-weight:300}
+.meta{margin-top:1rem;font-size:.85rem;opacity:.85}
+.section{background:#fff;border-radius:12px;padding:2rem;margin-bottom:1.5rem;box-shadow:0 4px 20px rgba(0,0,0,.05);border:1px solid #e2e8f0}
+h2{color:#1e293b;font-size:1.5rem;margin-bottom:1.25rem;padding-bottom:.4rem;border-bottom:3px solid #667eea;display:inline-block}
+h3{color:#334155;font-size:1.1rem;margin:1.25rem 0 .6rem}
+.outcome{font-size:1.2rem;font-weight:700;padding:1rem 1.25rem;border-radius:10px;margin:1rem 0}
+.outcome.done{background:#dcfce7;color:#166534;border-left:5px solid #16a34a}
+.outcome.review{background:#fef9c3;color:#854d0e;border-left:5px solid #ca8a04}
+table{width:100%;border-collapse:collapse;margin:.75rem 0}
+th,td{text-align:left;padding:.6rem .75rem;border-bottom:1px solid #e2e8f0;font-size:.95rem;vertical-align:top}
+th{background:#f8fafc;color:#475569;width:160px}
+a{color:#667eea;font-weight:600}
+.pill{display:inline-block;background:#ede9fe;color:#6d28d9;border-radius:999px;padding:.15rem .7rem;font-size:.8rem;font-weight:600;margin-right:.4rem}
+.shots{display:flex;flex-wrap:wrap;gap:1rem;margin-top:1rem}
+.shot{flex:1;min-width:300px;max-width:520px}
+.shot img{width:100%;border-radius:8px;border:1px solid #e2e8f0;box-shadow:0 4px 14px rgba(0,0,0,.08)}
+.shot .cap{font-size:.8rem;color:#64748b;margin-top:.4rem;text-align:center}
+.rung{border-left:4px solid #667eea;padding-left:1rem;margin-bottom:2rem}
+footer{text-align:center;color:#94a3b8;font-size:.85rem;padding:2rem}
+ul{padding-left:1.25rem}li{margin:.3rem 0}</style></head><body>
+<div class="container">
+  <header><h1>Ecosystem upgrades</h1>
+    <div class="subtitle">Factory + visibility hardening so the studio ships visibly and reviews to a bar</div>
+    <div class="meta">Hermes delivery studio &nbsp;·&nbsp; 2026-06-03 &nbsp;·&nbsp; Cost: <strong>$0</strong> &nbsp;·&nbsp; FREE + ecosystem-only</div></header>
+
+  <section class="section"><h2>Visibility layer (you can now SEE the work)</h2>
+    <p>The blog2 family was invisible in Discord and no HTML reports were reaching you. Fixed:</p>
+    <ul>
+      <li><strong>Board → Discord mapping repaired.</strong> blog2 had no <code>links.json</code> so the bridge skipped it entirely (zero posts). Registered the mapping; audited todo/blog/blog2/hermes-kanban-ui — all four now post to their channel. Provisioning hardened to register the mapping for every future family.</li>
+      <li><strong>Evidence now posts reliably.</strong> Workers wrote screenshots to inconsistent dirs; the bridge now reads the <strong>absolute artifact paths in each card's completed-event metadata</strong> and posts those files directly (dir-agnostic), with a dir scan as fallback.</li>
+      <li><strong>Per-stage HTML report → Pages → Discord.</strong> When a card reaches review/done the bridge auto-generates a business deck (what was built, PR, tests, embedded screenshots, outcome), publishes it to GitHub Pages, and posts the summary + deck URL + screenshots to the family channel — idempotent, ecosystem-owned.</li>
+    </ul>
+    <p><span class="pill">blog2 R1–R4 backfilled</span><span class="pill">5 screenshots posted</span><span class="pill">live deck</span></p>
+    <p>Live blog2 report: <a href="https://coffeebreakerboy-sys.github.io/hermes-presentations/reports/blog2/family-report.html">https://coffeebreakerboy-sys.github.io/hermes-presentations/reports/blog2/family-report.html</a></p>
+  </section>
+
+  <section class="section"><h2>rtk — Rust Token Killer (worker context efficiency)</h2>
+    <p>Installed a prebuilt, checksum-verified rtk release binary (Apache-2.0, no key, no daemon, zero idle RAM) and wired it as a native Hermes plugin for <strong>workers</strong> — trims tokens on large pastes so build agents do more within the context window. Free, reversible.</p>
+  </section>
+
+  <section class="section"><h2>ECC — code-review rubric (review to a bar, not by vibes)</h2>
+    <p>Vendored 5 high-signal MIT files (pinned to a stable tag) into a new lean <code>code-review-rules</code> skill: a severity ladder (CRITICAL/HIGH/MED/LOW), security-review triggers, TDD/testing matrix, and confidence-based filtering. Wired into the build-worker's AI-review-triage step and into every new repo's native <code>AGENTS.md</code> — so the free AI PR review gets triaged to an explicit, tech-agnostic bar without flooding PRs with nits.</p>
+  </section>
+
+  <section class="section"><h2>Safety</h2>
+    <ul>
+      <li><strong>FREE</strong> throughout — no paid key touched.</li>
+      <li><strong>No compile</strong> — rtk is a prebuilt release binary.</li>
+      <li><strong>Box stayed safe</strong> — RAM 6.3–6.9 GB free the whole time (floor 300M).</li>
+      <li><strong>All edits backed up + reversible.</strong></li>
+    </ul>
+    <p>Full notes: <code>~/.hermes/projects/_ceo/research/rtk-ecc-integration.md</code> and <code>discord-visibility-fix.md</code>.</p>
+  </section>
+  <footer>Auto-generated by the Project Bridge visibility pipeline · source of truth = the Hermes boards</footer>
+</div></body></html>
