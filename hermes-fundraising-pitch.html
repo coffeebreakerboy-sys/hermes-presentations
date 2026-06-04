@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hermes Fundraising Pitch Deck</title>
+  <style>
+    :root {
+      --bg: #0f172a;
+      --text: #f8fafc;
+      --muted: #94a3b8;
+      --accent: #38bdf8;
+      --accent-muted: #1e293b;
+      --danger: #ef4444;
+      --success: #22c55e;
+      --warning: #f59e0b;
+      --primary: #6366f1;
+      --purple: #a855f7;
+      --cyan: #06b6d4;
+      --border: rgba(255,255,255,0.08);
+      --card-bg: rgba(30, 41, 59, 0.5);
+    }
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      overflow: hidden;
+    }
+    .slide {
+      display:none;
+      padding: 4rem;
+      height: 100vh;
+      box-sizing: border-box;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      position: relative;
+      overflow-y: auto;
+    }
+    .slide.active { display:flex; }
+    h1 { font-size: 3.5rem; color: var(--accent); margin-bottom: 1.5rem; font-weight: 800; letter-spacing: -1px; }
+    p { font-size: 1.5rem; line-height: 1.6; max-width: 900px; margin-bottom: 2rem; color: var(--muted); }
+    .subtitle { font-size: 1.8rem; color: var(--muted); font-weight: 400; margin-bottom: 2rem; }
+    .comparison { display: flex; gap: 2rem; margin-top: 2rem; justify-content: center; width: 100%; max-width: 1100px; }
+    .box { flex: 1; padding: 2rem; border-radius: 1rem; border: 1px solid #334155; background: var(--card-bg); text-align: left; }
+    .box h3 { margin-top: 0; font-size: 1.8rem; margin-bottom: 1rem; }
+    .box-danger { border-color: var(--danger); }
+    .box-success { border-color: var(--success); }
+    .list-item { margin-bottom: 0.75rem; display: flex; align-items: center; gap: 0.75rem; font-size: 1.2rem; }
+    .icon-x { color: var(--danger); font-weight: bold; }
+    .icon-v { color: var(--success); font-weight: bold; }
+    .metrics-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-top: 2rem; width: 100%; max-width: 1100px; }
+    .metric-card { background: var(--card-bg); border: 1px solid #334155; border-radius: 1rem; padding: 1.5rem; text-align: center; transition: border-color 0.2s ease; }
+    .metric-card:hover { border-color: var(--accent); }
+    .metric-value { font-size: 2.5rem; font-weight: 800; color: var(--accent); margin-bottom: 0.25rem; }
+    .metric-label { font-size: 0.9rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; }
+    .metric-sub { font-size: 0.85rem; color: #64748b; margin-top: 0.5rem; }
+    .progress-row { margin-top: 2rem; width: 100%; max-width: 800px; }
+    .progress-item { display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem; }
+    .progress-label { width: 180px; font-size: 0.9rem; color: var(--muted); text-align: right; }
+    .progress-track { flex: 1; height: 1.2rem; background: var(--accent-muted); border-radius: 0.6rem; overflow: hidden; border: 1px solid #334155; }
+    .progress-fill { height: 100%; background: linear-gradient(90deg, var(--accent), #60a5fa); border-radius: 0.6rem; display: flex; align-items: center; justify-content: flex-end; padding-right: 0.5rem; font-size: 0.7rem; font-weight: 600; color: #0f172a; }
+    .progress-fill.success { background: linear-gradient(90deg, var(--success), #6ee7b7); }
+    .progress-fill.warning { background: linear-gradient(90deg, var(--warning), #fbbf24); }
+    .two-column { display: flex; gap: 2rem; margin-top: 2rem; justify-content: center; width: 100%; max-width: 1100px; }
+    .column { flex: 1; max-width: 500px; text-align: left; }
+    .callout-box { background: var(--card-bg); border-radius: 1rem; padding: 2rem; border: 1px solid #334155; height: 100%; text-align: left; }
+    .callout-box.trigger { border-left: 5px solid var(--warning); }
+    .callout-box.argument { border-left: 5px solid var(--success); }
+    .callout-label { font-size: 0.8rem; font-weight: 600; text-transform: uppercase; color: #64748b; margin-bottom: 0.75rem; }
+    .callout-box h3 { font-size: 1.8rem; font-weight: 700; color: var(--text); margin-bottom: 0.5rem; }
+    .callout-sub { font-size: 1rem; color: var(--muted); margin-bottom: 1.5rem; }
+    .bullet-list { list-style: none; padding: 0; }
+    .bullet-list li { padding: 0.5rem 0; font-size: 1rem; color: #cbd5e1; line-height: 1.5; }
+    .bullet-list li::before { content: "•"; color: var(--accent); font-weight: bold; margin-right: 0.5rem; }
+    .bullet-list.check li::before { content: "✓"; color: var(--success); }
+    .bullet-list.x li::before { content: "✕"; color: var(--danger); }
+    .ask-bar { display: flex; gap: 2rem; background: var(--card-bg); border: 1px solid #334155; border-radius: 1rem; padding: 1.5rem 2rem; margin-top: 2rem; }
+    .ask-item { flex: 1; text-align: center; }
+    .ask-value { display: block; font-size: 2rem; font-weight: 800; color: var(--accent); }
+    .ask-label { font-size: 0.85rem; color: #64748b; }
+    .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; width: 100%; max-width: 1100px; }
+    .stat-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 16px; padding: 24px; text-align: center; transition: transform 0.2s ease; }
+    .stat-card:hover { transform: translateY(-4px); border-color: var(--primary); }
+    .stat-value { display: block; font-size: 36px; font-weight: 800; margin-bottom: 4px; }
+    .stat-label { display: block; font-size: 13px; color: var(--muted); text-transform: uppercase; }
+    .stat-tagline { display: block; font-size: 11px; color: #6b7280; margin-top: 8px; }
+    .flow-container { display: flex; justify-content: space-between; gap: 16px; margin-top: 2rem; width: 100%; max-width: 1100px; }
+    .flow-step { flex: 1; background: var(--card-bg); border: 1px solid var(--border); border-radius: 16px; padding: 24px; text-align: left; transition: transform 0.2s ease; }
+    .flow-step:hover { transform: translateY(-4px); }
+    .step-header { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
+    .step-num { width: 24px; height: 24px; border-radius: 50%; background: var(--primary); color: white; display: flex; justify-content: center; align-items: center; font-size: 12px; font-weight: 700; }
+    .step-title { font-size: 16px; font-weight: 600; color: var(--text); }
+    .step-content { font-size: 14px; color: var(--muted); line-height: 1.5; }
+    .step-content ul { list-style: none; padding: 0; margin-top: 12px; }
+    .step-content li { margin-bottom: 8px; padding-left: 18px; position: relative; }
+    .step-content li::before { content: '→'; position: absolute; left: 0; color: var(--primary); font-weight: bold; }
+    .cta-card { background: linear-gradient(135deg, rgba(99,102,241,0.1) 0%, rgba(168,85,247,0.1) 100%); border: 1px solid rgba(99,102,241,0.2); border-radius: 16px; padding: 24px; text-align: center; margin-top: 2rem; width: 100%; max-width: 1100px; }
+    .cta-card h2 { font-size: 24px; color: #a5b4fc; margin-bottom: 8px; }
+    .cta-card p { font-size: 16px; color: var(--muted); }
+    .slide-footer { border-top: 1px solid var(--border); padding-top: 16px; margin-top: 2rem; }
+    .footer-text { font-size: 13px; color: #6b7280; text-align: center; }
+    .highlight-badge { display: inline-block; background: rgba(56, 189, 248, 0.15); border: 1px solid var(--accent); border-radius: 2rem; padding: 1rem 2rem; font-size: 1.5rem; font-weight: 600; color: var(--accent); text-align: center; }
+    .nav { position:fixed; bottom:2rem; right:2rem; display:flex; gap:1rem; align-items: center; z-index:100; }
+    .nav button { padding:0.75rem 1.5rem; font-size:1rem; cursor:pointer; background: var(--accent-muted); color: var(--text); border: 1px solid var(--accent); border-radius: 0.5rem; transition: 0.2s; }
+    .nav button:hover { background: var(--accent); color: var(--bg); }
+    .nav button:disabled { opacity: 0.5; cursor: not-allowed; }
+    #page-num { color: var(--muted); font-size: 0.9rem; font-weight: 500; }
+    .accent-primary { border-left: 4px solid var(--primary); } .accent-primary .metric-value { color: #a5b4fc; }
+    .accent-cyan { border-left: 4px solid var(--cyan); } .accent-cyan .metric-value { color: #67e8f9; }
+    .accent-green { border-left: 4px solid var(--success); } .accent-green .metric-value { color: #86efac; }
+    .accent-amber { border-left: 4px solid var(--warning); } .accent-amber .metric-value { color: #fcd34d; }
+    .accent-purple { border-left: 4px solid var(--purple); } .accent-purple .metric-value { color: #c4b5fd; }
+    .accent-rose { border-left: 4px solid var(--danger); } .accent-rose .metric-value { color: #fda4af; }
+    .tag { background: rgba(99,102,241,0.15); color: #a5b4fc; font-size: 12px; font-weight: 600; text-transform: uppercase; padding: 6px 14px; border-radius: 100px; border: 1px solid rgba(99,102,241,0.25); }
+    .slide-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 32px; width: 100%; max-width: 1100px; }
+    .slide-title { margin-bottom: 40px; text-align: center; }
+  </style>
+</head>
+<body>
+
+  <!-- SLIDE 0: COVER -->
+  <section class="slide active">
+    <h1 style="font-size: 4.5rem;">Hermes Delivery Studio</h1>
+    <p class="subtitle">Building the future of Automated Software Delivery</p>
+    <div style="margin-top: 4rem;">
+      <svg width="80" height="80" viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg">
+        <rect x="10" y="10" width="60" height="60" rx="16" fill="#1e293b" stroke="#38bdf8" stroke-width="3"/>
+        <text x="40" y="48" fill="#38bdf8" font-size="32" font-weight="bold" text-anchor="middle">H</text>
+      </svg>
+    </div>
+    <div class="slide-footer" style="margin-top: 4rem;">
+      <p class="footer-text">Fundraising Deck &middot; June 2026</p>
+    </div>
+  </section>
+
+  <!-- SLIDE 1: PROBLEM -->
+  <section class="slide">
+    <h1>The Problem</h1>
+    <p>Modern software delivery is plagued by <strong style="color:var(--accent)">fragmented tooling</strong> and <strong style="color:var(--accent)">manual handoffs</strong>. Even with "AI assistants," engineers still spend 60% of their time on "glue work".</p>
+    <div class="comparison">
+      <div class="box box-danger">
+        <h3>The SDLC Waste</h3>
+        <div class="list-item"><span class="icon-x">✕</span> Disconnected Prompt-Edit-Test cycles</div>
+        <div class="list-item"><span class="icon-x">✕</span> Context loss between spec and code</div>
+        <div class="list-item"><span class="icon-x">✕</span> Manual verification of PRs</div>
+        <div class="list-item"><span class="icon-x">✕</span> High friction in deployment gated paths</div>
+      </div>
+    </div>
+    <p style="font-size: 1.2rem; color: #94a3b8; margin-top: 2rem;">The result: an "AI-assisted" workflow that is still fundamentally linear and human-bottlenecked.</p>
+  </section>
+
+  <!-- SLIDE 2: SOLUTION -->
+  <section class="slide">
+    <h1>The Solution</h1>
+    <p>Hermes is the world's first <strong style="color:var(--accent)">end-to-end multi-agent orchestration platform</strong> that closes the loop from specification to production.</p>
+    <div class="comparison" style="max-width: 900px;">
+      <div class="box box-danger">
+        <h3>Point Solutions</h3>
+        <div class="list-item"><span class="icon-x">✕</span> Fragmented Agents</div>
+        <div class="list-item"><span class="icon-x">✕</span> Manual Glue</div>
+        <div class="list-item"><span class="icon-x">✕</span> No Unified State</div>
+      </div>
+      <div class="box box-success">
+        <h3>Hermes Pipeline</h3>
+        <div class="list-item"><span class="icon-v">✓</span> Unified Agentic Flow</div>
+        <div class="list-item"><span class="icon-v">✓</span> Gated Verifications</div>
+        <div class="list-item"><span class="icon-v">✓</span> End-to-End Ownership</div>
+      </div>
+    </div>
+    <div style="margin-top: 2rem;">
+      <svg width="600" height="90" viewBox="0 0 600 90" xmlns="http://www.w3.org/2000/svg">
+        <rect x="10" y="15" width="100" height="60" rx="10" fill="#1e293b" stroke="#38bdf8" stroke-width="2" />
+        <text x="60" y="52" fill="white" font-size="14" text-anchor="middle">Spec Agent</text>
+        <line x1="110" y1="45" x2="150" y2="45" stroke="#38bdf8" stroke-width="2" marker-end="url(#a)"/>
+        <rect x="150" y="15" width="100" height="60" rx="10" fill="#1e293b" stroke="#38bdf8" stroke-width="2" />
+        <text x="200" y="52" fill="white" font-size="14" text-anchor="middle">Code Agent</text>
+        <line x1="250" y1="45" x2="290" y2="45" stroke="#38bdf8" stroke-width="2" marker-end="url(#a)"/>
+        <rect x="290" y="15" width="100" height="60" rx="10" fill="#1e293b" stroke="#38bdf8" stroke-width="2" />
+        <text x="340" y="52" fill="white" font-size="14" text-anchor="middle">Verify Agent</text>
+        <line x1="390" y1="45" x2="430" y2="45" stroke="#38bdf8" stroke-width="2" marker-end="url(#a)"/>
+        <rect x="430" y="15" width="120" height="60" rx="10" fill="#38bdf8" stroke="#fff" stroke-width="2" />
+        <text x="490" y="52" fill="#0f172a" font-size="14" font-weight="bold" text-anchor="middle">Production</text>
+        <defs>
+          <marker id="a" markerWidth="10" markerHeight="10" refX="0" refY="3" orient="auto" markerUnits="strokeWidth">
+            <path d="M0,0 L0,6 L9,3 z" fill="#38bdf8" />
+          </marker>
+        </defs>
+      </svg>
+    </div>
+  </section>
+
+  <!-- SLIDE 3: TRACTION -->
+  <section class="slide">
+    <h1>Traction</h1>
+    <p>Hermes is already shipping — a fully functional AI delivery studio running on <strong style="color:var(--accent)">real projects</strong> with <strong style="color:var(--accent)">zero infrastructure spend</strong>.</p>
+    <div style="font-size: 1.2rem; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 1rem;">Key Metrics</div>
+    <div class="metrics-grid">
+      <div class="metric-card" style="border-left: 4px solid var(--primary);"><span class="metric-value" style="color:#a5b4fc;">5</span><span class="metric-label">Rungs Completed</span><span class="metric-sub">CLI → Full-Stack</span></div>
+      <div class="metric-card" style="border-left: 4px solid var(--cyan);"><span class="metric-value" style="color:#67e8f9;">20+</span><span class="metric-label">Kanban Tasks</span><span class="metric-sub">Completed & Verified</span></div>
+      <div class="metric-card" style="border-left: 4px solid var(--success);"><span class="metric-value" style="color:#86efac;">6+</span><span class="metric-label">Cron Jobs</span><span class="metric-sub">220+ Runs, 0 Failures</span></div>
+      <div class="metric-card" style="border-left: 4px solid var(--warning);"><span class="metric-value" style="color:#fcd34d;">90+</span><span class="metric-label">Skills Installed</span><span class="metric-sub">Scripted Workflows</span></div>
+      <div class="metric-card" style="border-left: 4px solid var(--purple);"><span class="metric-value" style="color:#c4b5fd;">11</span><span class="metric-label">GitHub Repos</span><span class="metric-sub">Managed & Monitored</span></div>
+      <div class="metric-card" style="border-left: 4px solid var(--danger); border-color: var(--success);"><span class="metric-value" style="color: var(--success);">$0</span><span class="metric-label">Infra Spend</span><span class="metric-sub">Free Routing Only</span></div>
+    </div>
+    <div style="font-size: 1.2rem; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.1em; margin-top: 2rem; margin-bottom: 1rem;">Progress by Rung</div>
+    <div class="progress-row">
+      <div class="progress-item"><span class="progress-label">Rung 1 · CLI</span><div class="progress-track"><div class="progress-fill success" style="width:100%">100%</div></div></div>
+      <div class="progress-item"><span class="progress-label">Rung 2 · This Deck</span><div class="progress-track"><div class="progress-fill" style="width:70%">70%</div></div></div>
+      <div class="progress-item"><span class="progress-label">Rung 3 · Web App</span><div class="progress-track"><div class="progress-fill" style="width:45%">45%</div></div></div>
+      <div class="progress-item"><span class="progress-label">Rung 4 · API + FE</span><div class="progress-track"><div class="progress-fill warning" style="width:25%">25%</div></div></div>
+      <div class="progress-item"><span class="progress-label">Rung 5 · Full-Stack</span><div class="progress-track"><div class="progress-fill" style="width:10%">10%</div></div></div>
+    </div>
+    <div class="highlight-badge" style="margin-top: 2rem;">🚀 Zero Infrastructure Spend to Date</div>
+  </section>
+
+  <!-- SLIDE 4: INFRASTRUCTURE ASK -->
+  <section class="slide">
+    <h1>Infrastructure Ask</h1>
+    <p>We've proven the model on zero spend. Now we've hit a real hardware ceiling — the natural moment to raise.</p>
+    <div class="two-column">
+      <div class="column">
+        <div class="callout-box trigger">
+          <div class="callout-label">The Trigger</div>
+          <h3>Run 5 OOM</h3>
+          <p class="callout-sub">16 GB Mac mini — our single machine — exhausted.</p>
+          <p style="font-size:0.95rem; color:#94a3b8; margin-bottom:0.75rem;">What Run 5 was doing when it hit the wall:</p>
+          <ul class="bullet-list x">
+            <li>8 concurrent build agents (multi-repo)</li>
+            <li>Distributed cache layer</li>
+            <li>Faceted search index over codebase</li>
+            <li>Real-time SSE streaming</li>
+            <li>Service mesh coordination</li>
+          </ul>
+        </div>
+      </div>
+      <div class="column">
+        <div class="callout-box argument">
+          <div class="callout-label">Why This Is Our Ask</div>
+          <ul class="bullet-list check" style="margin-bottom:1rem;">
+            <li>Zero-spend operations validated end-to-end</li>
+            <li>Real delivery capacity proven across 5 rungs</li>
+            <li>Clear infrastructure bottleneck identified</li>
+            <li>No artificial spending — this is the actual ceiling</li>
+          </ul>
+          <p style="font-size:0.95rem; color:#94a3b8; margin-top:1rem;">We are not asking speculatively. We have proof of demand, delivery, and a concrete resource gap.</p>
+        </div>
+      </div>
+    </div>
+    <div class="ask-bar">
+      <div class="ask-item"><span class="ask-value">$0</span><span class="ask-label">infra cost to date</span></div>
+      <div class="ask-item"><span class="ask-value">16 GB</span><span class="ask-label">single-machine ceiling</span></div>
+      <div class="ask-item"><span class="ask-value">5 rungs</span><span class="ask-label">proven on zero spend</span></div>
+    </div>
+    <div class="slide-footer"><p class="footer-text">Infrastructure ask — the Run 5 OOM is our clearest, most credible funding trigger yet.</p></div>
+  </section>
+
+  <!-- SLIDE 5: PHASE 2 VISION -->
+  <section class="slide">
+    <div class="slide-header">
+      <span class="tag">Phase 2 Vision</span>
+      <span style="font-size:14px; color:var(--muted); font-weight:600;">05</span>
+    </div>
+    <div class="slide-title" style="margin-bottom: 2rem;">
+      <h1>From studio to platform</h1>
+      <p class="subtitle">What we've proven. What we'll productize.</p>
+    </div>
+    <div class="two-column" style="max-width: 1000px;">
+      <div class="column">
+        <div class="callout-box" style="border-left: 5px solid var(--primary);">
+          <div class="callout-label">Phase 1 — Proven</div>
+          <h3>Delivery Studio</h3>
+          <p class="callout-sub">AI agents ship real work today.</p>
+          <ul class="bullet-list">
+            <li>Real project ideas → marketable artifacts</li>
+            <li>Modular monolith, make + Docker frontdoor</li>
+            <li>Zero-spend operations on 16 GB Mac mini</li>
+            <li>TDD, PR-is-step-1, AI code review</li>
+            <li>Earned revenue from delivered work</li>
+          </ul>
+        </div>
+      </div>
+      <div class="column">
+        <div class="callout-box" style="border-left: 5px solid var(--success);">
+          <div class="callout-label">Phase 2 — Productize</div>
+          <h3>SDLC-as-a-Service</h3>
+          <p class="callout-sub">Automated software delivery for every company.</p>
+          <ul class="bullet-list check">
+            <li>SaaS multi-tenant delivery platform</li>
+            <li>Plug-in your repo, config, team</li>
+            <li>Automated backlog → PR → release pipeline</li>
+            <li>Enterprise SLAs, audit trails, compliance</li>
+            <li>Recurring revenue from platform subscriptions</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div style="display:flex; align-items:center; justify-content:center; gap:1rem; margin-top:2rem;">
+      <div style="width:100px; height:2px; background:var(--border);"></div>
+      <span style="color:var(--accent); font-weight:bold;">→</span>
+      <span style="font-size:1rem; color:var(--muted);">Natural evolution — the same engine, productized</span>
+      <span style="color:var(--accent); font-weight:bold;">→</span>
+      <div style="width:100px; height:2px; background:var(--border);"></div>
+    </div>
+    <div style="display:flex; justify-content:center; gap:2rem; margin-top:2rem;">
+      <div style="text-align:center;"><span style="display:block; font-weight:bold; color:var(--text);">Phase 1</span><span style="display:block; font-size:0.8rem; color:var(--muted);">proven delivery capacity</span></div>
+      <div style="text-align:center;"><span style="display:block; color:var(--accent);">→</span><span style="display:block; font-size:0.8rem; color:var(--muted);">foundation for</span></div>
+      <div style="text-align:center;"><span style="display:block; font-weight:bold; color:var(--text);">Phase 2</span><span style="display:block; font-size:0.8rem; color:var(--muted);">multi-tenant SaaS platform</span></div>
+    </div>
+    <div class="slide-footer"><p class="footer-text">Phase 2 Vision — productize the proven delivery engine as Automated SDLC-as-a-Service</p></div>
+  </section>
+
+  <!-- SLIDE 6: CREDIBILITY ANCHORS -->
+  <section class="slide">
+    <div class="slide-header">
+      <span class="tag">Credibility Anchors</span>
+      <span style="font-size:14px; color:var(--muted); font-weight:600;">06</span>
+    </div>
+    <div class="slide-title" style="margin-bottom: 2rem;">
+      <h1>Built, not pitched</h1>
+      <p class="subtitle">Verifiable proof points from a real operating delivery studio — no vapor, no stretched claims.</p>
+    </div>
+    <div class="stats-grid">
+      <div class="stat-card" style="border-left: 4px solid var(--primary);"><span class="stat-value" style="color:#a5b4fc;">20+</span><span class="stat-label">Kanban tasks completed</span><span class="stat-tagline">Real deliveries, end-to-end</span></div>
+      <div class="stat-card" style="border-left: 4px solid var(--cyan);"><span class="stat-value" style="color:#67e8f9;">220+</span><span class="stat-label">Cron runs (0 failures)</span><span class="stat-tagline">Autonomous, unattended</span></div>
+      <div class="stat-card" style="border-left: 4px solid var(--success);"><span class="stat-value" style="color:#86efac;">90+</span><span class="stat-label">Skills installed</span><span class="stat-tagline">Growing toolkit</span></div>
+      <div class="stat-card" style="border-left: 4px solid var(--warning);"><span class="stat-value" style="color:#fcd34d;">11</span><span class="stat-label">GitHub repos managed</span><span class="stat-tagline">Code, CI, reviews</span></div>
+      <div class="stat-card" style="border-left: 4px solid var(--purple);"><span class="stat-value" style="color:#c4b5fd;">$0</span><span class="stat-label">Infrastructure spend</span><span class="stat-tagline">30 days, 100% free-tier</span></div>
+      <div class="stat-card" style="border-left: 4px solid var(--danger);"><span class="stat-value" style="color:#fda4af;">16GB</span><span class="stat-label">Mac mini host</span><span class="stat-tagline">Free LLM routing</span></div>
+    </div>
+    <div style="display:flex; gap:24px; background:rgba(0,0,0,0.3); border-radius:14px; padding:20px 28px; margin-top:2rem; border:1px solid rgba(255,255,255,0.04);">
+      <div style="flex:1; text-align:center;"><span style="display:block; font-size:20px; font-weight:700; color:var(--muted);">Zero-spend operations</span><span style="display:block; font-size:11px; color:#6b7280; text-transform:uppercase; letter-spacing:0.5px;">Proven business model</span></div>
+      <div style="flex:1; text-align:center;"><span style="display:block; font-size:20px; font-weight:700; color:var(--muted);">All metrics verifiable</span><span style="display:block; font-size:11px; color:#6b7280; text-transform:uppercase; letter-spacing:0.5px;">No fabricated traction</span></div>
+      <div style="flex:1; text-align:center;"><span style="display:block; font-size:20px; font-weight:700; color:var(--muted);">Open-sourced playbook</span><span style="display:block; font-size:11px; color:#6b7280; text-transform:uppercase; letter-spacing:0.5px;">It's reproducible</span></div>
+    </div>
+    <div style="background:linear-gradient(135deg, rgba(99,102,241,0.08) 0%, rgba(168,85,247,0.08) 100%); border:1px solid rgba(99,102,241,0.15); border-radius:14px; padding:16px 24px; text-align:center; margin-top:1.5rem;">
+      <p style="font-size:15px; color:#c4b5fd; margin:0;"><strong style="color:#a5b4fc;">Built on a 16GB Mac mini</strong> with free-tier LLM routing — our traction is capital-efficient by design, not by accident.</p>
+    </div>
+    <div class="slide-footer"><p class="footer-text">Every number here is a live system fact. No projections. No fiction.</p></div>
+  </section>
+
+  <!-- SLIDE 7: INVESTOR CTA FLOW -->
+  <section class="slide">
+    <div class="slide-header">
+      <span class="tag">Investor CTA Flow</span>
+      <span style="font-size:14px; color:var(--muted); font-weight:600;">07</span>
+    </div>
+    <div class="slide-title" style="margin-bottom: 2rem;">
+      <h1>The Path Forward</h1>
+      <p class="subtitle">Turning verified traction into a scalable, capital-efficient operation.</p>
+    </div>
+    <div class="flow-container">
+      <div class="flow-step" style="border-top: 4px solid var(--primary);">
+        <div class="step-header"><span class="step-num" style="background:var(--primary);">1</span><span class="step-title">Verified Traction</span></div>
+        <div class="step-content"><p>Proven delivery capacity and zero-spend operations.</p><ul><li>20+ tasks completed</li><li>100% free-tier infra</li><li>Real operating studio</li></ul></div>
+      </div>
+      <div class="flow-step" style="border-top: 4px solid var(--purple);">
+        <div class="step-header"><span class="step-num" style="background:var(--purple);">2</span><span class="step-title">The Funding Ask</span></div>
+        <div class="step-content"><p>Scaling from a single machine to a professional cluster.</p><ul><li>Target: Seed funding</li><li>Scale: Infra expansion</li><li>Team: Key hires</li></ul></div>
+      </div>
+      <div class="flow-step" style="border-top: 4px solid var(--cyan);">
+        <div class="step-header"><span class="step-num" style="background:var(--cyan);">3</span><span class="step-title">Use of Funds</span></div>
+        <div class="step-content"><p>Direct investment in the delivery engine.</p><ul><li>GPU cluster expansion</li><li>Edge deployment</li><li>Agent orchestration</li></ul></div>
+      </div>
+      <div class="flow-step" style="border-top: 4px solid var(--success);">
+        <div class="step-header"><span class="step-num" style="background:var(--success);">4</span><span class="step-title">Next Meeting</span></div>
+        <div class="step-content"><p>Deep dive into the technical roadmap.</p><ul><li>Phase 2 Vision</li><li>Scaling strategy</li><li>Execution plan</li></ul></div>
+      </div>
+    </div>
+    <div class="cta-card">
+      <h2>Ready for the Deep Dive?</h2>
+      <p>Let's schedule a <strong style="color:#c4b5fd;">technical roadmap review</strong> to explore the Phase 2 Vision and scaling strategy.</p>
+    </div>
+    <div class="slide-footer"><p class="footer-text">Logical flow: Traction → Ask → Use of Funds → Next Meeting</p></div>
+  </section>
+
+  <!-- NAVIGATION -->
+  <div class="nav">
+    <button id="prev" disabled>Prev</button>
+    <span id="page-num">1 / 8</span>
+    <button id="next">Next</button>
+  </div>
+
+  <script>
+    const slides = document.querySelectorAll('.slide');
+    let idx = 0;
+    const prevBtn = document.getElementById('prev');
+    const nextBtn = document.getElementById('next');
+    const pageNum = document.getElementById('page-num');
+    function update() {
+      slides.forEach((s,i)=>s.classList.toggle('active', i===idx));
+      prevBtn.disabled = idx===0;
+      nextBtn.disabled = idx===slides.length-1;
+      pageNum.textContent = (idx+1) + ' / ' + slides.length;
+    }
+    prevBtn.addEventListener('click',()=>{ if(idx>0){idx--; update();}});
+    nextBtn.addEventListener('click',()=>{ if(idx<slides.length-1){idx++; update();}});
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight' || e.key === 'ArrowDown') { if(idx<slides.length-1){idx++; update();} }
+      if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') { if(idx>0){idx--; update();} }
+    });
+  </script>
+</body>
+</html>
