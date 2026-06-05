@@ -2,7 +2,7 @@
 
 ## Session Information
 - **Date**: June 2, 2026
-- **User**: Daler Singh (@coffeebreakerboy-sys) and DSR
+- **User**: the CEO (@coffeebreakerboy-sys) and DSR
 - **Platform**: Discord (Herme's Server / #general)
 - **Environment**: Windows 10
 

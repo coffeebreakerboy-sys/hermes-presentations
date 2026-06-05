@@ -1,51 +1,379 @@
-<!DOCTYPE html>
-<html lang="en"><head><meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>[todo #91] Build todo R1: single-file Python stdlib CLI (FRESH, push-PR-first)</title><style>*{margin:0;padding:0;box-sizing:border-box}
-body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;line-height:1.6;color:#2c3e50;background:#f8fafc}
-.container{max-width:1100px;margin:0 auto;padding:2rem}
-header{background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);color:#fff;padding:3rem 2rem;border-radius:12px;margin-bottom:2rem;box-shadow:0 10px 30px rgba(0,0,0,.1)}
-header h1{font-size:2.2rem;font-weight:700;line-height:1.15;margin-bottom:.75rem}
-.subtitle{font-size:1.1rem;opacity:.92;font-weight:300}
-.meta{margin-top:1rem;font-size:.85rem;opacity:.85}
-.section{background:#fff;border-radius:12px;padding:2rem;margin-bottom:1.5rem;box-shadow:0 4px 20px rgba(0,0,0,.05);border:1px solid #e2e8f0}
-h2{color:#1e293b;font-size:1.5rem;margin-bottom:1.25rem;padding-bottom:.4rem;border-bottom:3px solid #667eea;display:inline-block}
-h3{color:#334155;font-size:1.1rem;margin:1.25rem 0 .6rem}
-.outcome{font-size:1.2rem;font-weight:700;padding:1rem 1.25rem;border-radius:10px;margin:1rem 0}
-.outcome.done{background:#dcfce7;color:#166534;border-left:5px solid #16a34a}
-.outcome.review{background:#fef9c3;color:#854d0e;border-left:5px solid #ca8a04}
-table{width:100%;border-collapse:collapse;margin:.75rem 0}
-th,td{text-align:left;padding:.6rem .75rem;border-bottom:1px solid #e2e8f0;font-size:.95rem;vertical-align:top}
-th{background:#f8fafc;color:#475569;width:160px}
-a{color:#667eea;font-weight:600}
-.pill{display:inline-block;background:#ede9fe;color:#6d28d9;border-radius:999px;padding:.15rem .7rem;font-size:.8rem;font-weight:600;margin-right:.4rem}
-.shots{display:flex;flex-wrap:wrap;gap:1rem;margin-top:1rem}
-.shot{flex:1;min-width:300px;max-width:520px}
-.shot img{width:100%;border-radius:8px;border:1px solid #e2e8f0;box-shadow:0 4px 14px rgba(0,0,0,.08)}
-.shot .cap{font-size:.8rem;color:#64748b;margin-top:.4rem;text-align:center}
-.rung{border-left:4px solid #667eea;padding-left:1rem;margin-bottom:2rem}
-footer{text-align:center;color:#94a3b8;font-size:.85rem;padding:2rem}
-ul{padding-left:1.25rem}li{margin:.3rem 0}</style></head><body>
-<div class="container">
-  <header><h1>[todo #91] Build todo R1: single-file Python stdlib CLI (FRESH, push-PR-first)</h1>
-    <div class="subtitle">Stage report — Review</div>
-    <div class="meta">Hermes delivery studio · family <strong>todo</strong>
-      &nbsp;·&nbsp; Generated: 2026-06-05 &nbsp;·&nbsp; Cost: <strong>$0</strong></div></header>
-  <section class="section"><h2>Progress</h2>
-    <p>Each rung below is a delivered stage: what was built, its pull request, the test outcome,
-       and the real UI/API evidence captured by the build workers (screenshots embedded inline).</p>
-    <p><span class="pill">FREE</span><span class="pill">ecosystem-owned</span>
-       <span class="pill">evidence-backed</span></p>
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>todo R1 — Verifiable Delivery Report</title>
+<style>
+  :root{
+    --bg:#f4f6fb; --card:#ffffff; --ink:#1a2030; --muted:#5d6678;
+    --line:#e6e9f2; --brand:#5b54e6; --brand2:#8a3ffc; --green:#1f9d57;
+    --greenbg:#e6f7ee; --code-bg:#0d1117; --code-ink:#d7dde7;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--bg); color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    line-height:1.6; -webkit-font-smoothing:antialiased;
+  }
+  .page{max-width:920px;margin:0 auto;padding:0 20px 64px;}
+  a{color:var(--brand);}
+
+  header.hero{
+    background:linear-gradient(135deg,#5b54e6 0%,#8a3ffc 55%,#b14cff 100%);
+    color:#fff; border-radius:0 0 26px 26px;
+    padding:46px 34px 38px; margin-bottom:34px;
+    box-shadow:0 16px 40px rgba(91,84,230,.28);
+  }
+  .hero h1{margin:0 0 8px;font-size:32px;letter-spacing:-.5px;font-weight:800;}
+  .hero .sub{margin:0 0 18px;font-size:16px;opacity:.93;font-weight:500;}
+  .hero .meta{
+    font-size:13px;opacity:.92;font-family:ui-monospace,Menlo,monospace;
+    background:rgba(255,255,255,.14);display:inline-block;
+    padding:8px 14px;border-radius:9px;border:1px solid rgba(255,255,255,.22);
+  }
+
+  section{
+    background:var(--card);border:1px solid var(--line);border-radius:18px;
+    padding:28px 30px;margin-bottom:26px;
+    box-shadow:0 2px 14px rgba(26,32,48,.04);
+  }
+  h2{
+    margin:0 0 18px;font-size:21px;font-weight:750;letter-spacing:-.3px;
+    display:flex;align-items:center;gap:10px;
+  }
+  h2 .n{
+    font-size:13px;font-weight:700;color:#fff;background:var(--brand);
+    width:26px;height:26px;border-radius:8px;display:inline-flex;
+    align-items:center;justify-content:center;flex:0 0 auto;
+  }
+
+  .crit{display:flex;gap:14px;padding:14px 0;border-bottom:1px solid var(--line);}
+  .crit:last-of-type{border-bottom:none;}
+  .check{
+    flex:0 0 auto;width:28px;height:28px;border-radius:50%;
+    background:var(--greenbg);color:var(--green);
+    display:flex;align-items:center;justify-content:center;font-weight:800;font-size:15px;
+  }
+  .crit .ct{font-weight:650;}
+  .crit .cd{color:var(--muted);font-size:14.5px;}
+  .crit code{background:#eef0f7;padding:1px 6px;border-radius:5px;font-size:13px;}
+
+  .pills{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px;}
+  .pill{
+    font-size:13px;font-weight:650;padding:7px 14px;border-radius:999px;
+    background:var(--greenbg);color:var(--green);border:1px solid #c7ecd6;
+  }
+  .pill.b{background:#eceafe;color:#5b54e6;border-color:#d7d3fb;}
+  .pill.k{background:#eef1f6;color:#3a4254;border-color:#dde2ec;}
+
+  figure{margin:0;}
+  .shot{
+    width:100%;height:auto;display:block;border-radius:14px;
+    border:1px solid #232b39;box-shadow:0 14px 40px rgba(13,17,23,.35);
+  }
+  figcaption{margin-top:14px;color:var(--muted);font-size:14px;}
+  figcaption code{
+    background:#0d1117;color:#d7dde7;padding:2px 7px;border-radius:5px;
+    font-size:12.5px;display:inline-block;margin:2px 3px 2px 0;
+  }
+
+  .codewrap{
+    background:var(--code-bg);border-radius:12px;overflow:hidden;
+    border:1px solid #1f2632;
+  }
+  .codebar{
+    display:flex;align-items:center;justify-content:space-between;
+    padding:10px 16px;background:#11161f;border-bottom:1px solid #1f2632;
+    font-size:12.5px;color:#8b96a8;font-family:ui-monospace,Menlo,monospace;
+  }
+  .codebar a{color:#79c0ff;text-decoration:none;font-weight:600;}
+  pre.code{
+    margin:0;max-height:520px;overflow:auto;padding:18px 20px;
+    font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+    font-size:13px;line-height:1.6;color:var(--code-ink);
+    tab-size:4;
+  }
+  pre.term{
+    margin:0;background:#0b0f17;color:#d7dde7;border-radius:12px;
+    border:1px solid #1f2632;padding:18px 20px;overflow:auto;
+    font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+    font-size:13px;line-height:1.65;
+  }
+  .note{color:var(--muted);font-size:14px;margin:14px 0 0;}
+
+  table.verify{width:100%;border-collapse:collapse;font-size:14.5px;}
+  table.verify th,table.verify td{
+    text-align:left;padding:13px 12px;border-bottom:1px solid var(--line);
+    vertical-align:top;
+  }
+  table.verify th{
+    color:var(--muted);font-weight:600;font-size:12.5px;
+    text-transform:uppercase;letter-spacing:.5px;width:150px;
+  }
+  table.verify code{
+    background:#0d1117;color:#d7dde7;padding:2px 8px;border-radius:6px;
+    font-size:12.5px;display:inline-block;line-height:1.7;word-break:break-all;
+  }
+  .ci{display:inline-flex;align-items:center;gap:6px;color:var(--green);font-weight:650;}
+  .open{
+    display:inline-block;font-weight:700;color:#1f9d57;background:var(--greenbg);
+    padding:2px 10px;border-radius:999px;font-size:13px;border:1px solid #c7ecd6;
+  }
+
+  footer{
+    text-align:center;color:var(--muted);font-size:14px;margin-top:8px;padding:10px;
+  }
+  footer .rr{
+    display:inline-block;background:var(--greenbg);color:var(--green);
+    font-weight:650;padding:9px 18px;border-radius:999px;border:1px solid #c7ecd6;
+    margin-bottom:12px;
+  }
+  footer .studio{font-weight:700;color:#3a4254;letter-spacing:.3px;}
+  @media (max-width:560px){
+    .hero h1{font-size:25px;} section{padding:22px 18px;}
+    table.verify th{width:auto;}
+  }
+</style>
+</head>
+<body>
+<header class="hero">
+  <div class="page" style="padding:0;">
+    <h1>todo R1 — Verifiable Delivery Report</h1>
+    <p class="sub">single-file Python-stdlib todo CLI · capability-ladder benchmark v2, rung R1 · Hermes Delivery Studio</p>
+    <div class="meta">card t_dfb8c336 · board todo · 2026-06-05 · proxy-verified · status: Review (CEO approval pending)</div>
+  </div>
+</header>
+
+<div class="page">
+
+  <section>
+    <h2><span class="n">1</span>Result at a glance</h2>
+    <div class="crit">
+      <div class="check">✓</div>
+      <div>
+        <div class="ct">Acceptance #1 — MET</div>
+        <div class="cd"><code>add "x"</code> persists the task &amp; <code>list</code> shows it with a numeric id (verified: "added task 1: buy groceries" → list shows "1. buy groceries").</div>
+      </div>
+    </div>
+    <div class="crit">
+      <div class="check">✓</div>
+      <div>
+        <div class="ct">Acceptance #2 — MET</div>
+        <div class="cd"><code>done &lt;id&gt;</code> removes the task &amp; <code>list</code> no longer shows it (verified: <code>done 2</code> → list drops "write unit tests", keeps 1 &amp; 3).</div>
+      </div>
+    </div>
+    <div class="crit">
+      <div class="check">✓</div>
+      <div>
+        <div class="ct">Acceptance #3 — MET</div>
+        <div class="cd">Docker build + <code>make test</code> all green — 8/8 unittests pass in <code>python:3-alpine</code> from a clean checkout.</div>
+      </div>
+    </div>
+    <div class="pills">
+      <span class="pill">make test 8/8</span>
+      <span class="pill">0 skipped</span>
+      <span class="pill b">PR #92 open</span>
+      <span class="pill k">Docker</span>
+    </div>
   </section>
-  <section class="section"><h2>The rungs</h2>
-  <div class="rung"><h3>Build todo R1: single-file Python stdlib CLI (FRESH, push-PR-first)</h3>
-<div class="outcome review">Stage outcome: Review</div>
-<table>
-<tr><th>Pull request</th><td><a href="https://github.com/coffeebreakerboy-sys/todo/pull/92">https://github.com/coffeebreakerboy-sys/todo/pull/92</a></td></tr>
-<tr><th>What was built</th><td>https://github.com/coffeebreakerboy-sys/todo/pull/92 — PR #92 green CI (8/8 tests in Docker), AI review GREEN/addressed, all acceptance criteria met</td></tr>
-<tr><th>Evidence</th><td>0 screenshot(s) — none captured</td></tr>
-</table>
+
+  <section>
+    <h2><span class="n">2</span>See it work</h2>
+    <figure>
+      <img class="shot" src="demo.png" alt="Terminal screenshot of a real todo CLI run plus the make test summary">
+      <figcaption>
+        Real run captured live (<code>TODO_STORE_PATH</code> → temp file), then the <code>make test</code> summary. Exact commands:
+        <br>
+        <code>python3 todo.py add "buy groceries"</code>
+        <code>add "write unit tests"</code>
+        <code>add "ship v1"</code>
+        <code>list</code>
+        <code>done 2</code>
+        <code>list</code>
+      </figcaption>
+    </figure>
+  </section>
+
+  <section>
+    <h2><span class="n">3</span>The actual code</h2>
+    <div class="codewrap">
+      <div class="codebar">
+        <span>rung1/todo-cli/todo.py · 118 lines · Python stdlib only</span>
+        <a href="https://github.com/coffeebreakerboy-sys/todo/blob/r1/todo-cli/rung1/todo-cli/todo.py">View on GitHub ↗</a>
+      </div>
+      <pre class="code"><code>#!/usr/bin/env python3
+&quot;&quot;&quot;todo — minimal CLI todo app (Python stdlib only).
+
+Subcommands
+  add &lt;text&gt;   Append a task to the JSON store.
+  list         Display tasks with numeric IDs.
+  done &lt;id&gt;    Mark a task complete (removed from the store).
+
+The store lives at STORE_PATH (env var) or ./tasks.json relative to the working
+directory. The store is a JSON list of objects: {&quot;id&quot;: int, &quot;text&quot;: str, &quot;done&quot;: bool}.
+&quot;&quot;&quot;
+from __future__ import annotations
+
+import argparse
+import json
+import os
+import sys
+from pathlib import Path
+
+STORE_PATH_ENV = &quot;TODO_STORE_PATH&quot;
+DEFAULT_STORE_NAME = &quot;tasks.json&quot;
+
+
+def store_path() -&gt; Path:
+    &quot;&quot;&quot;Resolve the JSON store path: $TODO_STORE_PATH or ./tasks.json.&quot;&quot;&quot;
+    p = os.environ.get(STORE_PATH_ENV)
+    return Path(p) if p else Path.cwd() / DEFAULT_STORE_NAME
+
+
+def load_tasks(path: Path) -&gt; list[dict]:
+    &quot;&quot;&quot;Load the task list from `path`; return [] if the file is absent or empty.&quot;&quot;&quot;
+    if not path.exists():
+        return []
+    try:
+        data = json.loads(path.read_text(encoding=&quot;utf-8&quot;) or &quot;[]&quot;)
+    except json.JSONDecodeError as exc:
+        raise SystemExit(f&quot;error: store at {path} is corrupt: {exc}&quot;) from exc
+    if not isinstance(data, list):
+        raise SystemExit(f&quot;error: store at {path} is not a list&quot;)
+    return data
+
+
+def save_tasks(path: Path, tasks: list[dict]) -&gt; None:
+    &quot;&quot;&quot;Persist the task list to `path` atomically (write-temp + replace).&quot;&quot;&quot;
+    path.parent.mkdir(parents=True, exist_ok=True)
+    tmp = path.with_suffix(path.suffix + &quot;.tmp&quot;)
+    tmp.write_text(json.dumps(tasks, indent=2) + &quot;\n&quot;, encoding=&quot;utf-8&quot;)
+    os.replace(tmp, path)
+
+
+def next_id(tasks: list[dict]) -&gt; int:
+    &quot;&quot;&quot;Return the next monotonically increasing task id (max+1, 1 if empty).&quot;&quot;&quot;
+    return (max((t[&quot;id&quot;] for t in tasks), default=0)) + 1
+
+
+def cmd_add(args: argparse.Namespace) -&gt; int:
+    &quot;&quot;&quot;Append a new task with `args.text` and persist.&quot;&quot;&quot;
+    text = (args.text or &quot;&quot;).strip()
+    if not text:
+        print(&quot;error: add requires non-empty text&quot;, file=sys.stderr)
+        return 2
+    path = store_path()
+    tasks = load_tasks(path)
+    tasks.append({&quot;id&quot;: next_id(tasks), &quot;text&quot;: text, &quot;done&quot;: False})
+    save_tasks(path, tasks)
+    print(f&quot;added task {tasks[-1][&#x27;id&#x27;]}: {text}&quot;)
+    return 0
+
+
+def cmd_list(_: argparse.Namespace) -&gt; int:
+    &quot;&quot;&quot;Print all open (not-yet-done) tasks as &#x27;id. text&#x27; lines.&quot;&quot;&quot;
+    path = store_path()
+    tasks = load_tasks(path)
+    open_tasks = [t for t in tasks if not t.get(&quot;done&quot;)]
+    if not open_tasks:
+        print(&quot;(no tasks)&quot;)
+        return 0
+    for t in open_tasks:
+        print(f&quot;{t[&#x27;id&#x27;]}. {t[&#x27;text&#x27;]}&quot;)
+    return 0
+
+
+def cmd_done(args: argparse.Namespace) -&gt; int:
+    &quot;&quot;&quot;Mark the task with id `args.task_id` as done (removes it from the list).&quot;&quot;&quot;
+    path = store_path()
+    tasks = load_tasks(path)
+    target = args.task_id
+    kept = [t for t in tasks if t[&quot;id&quot;] != target]
+    if len(kept) == len(tasks):
+        print(f&quot;error: no task with id {target}&quot;, file=sys.stderr)
+        return 1
+    save_tasks(path, kept)
+    print(f&quot;done task {target}&quot;)
+    return 0
+
+
+def build_parser() -&gt; argparse.ArgumentParser:
+    p = argparse.ArgumentParser(prog=&quot;todo&quot;, description=&quot;Minimal CLI todo app.&quot;)
+    sub = p.add_subparsers(dest=&quot;cmd&quot;, required=True)
+    p_add = sub.add_parser(&quot;add&quot;, help=&quot;Add a new task.&quot;)
+    p_add.add_argument(&quot;text&quot;, help=&quot;Task text (quoted).&quot;)
+    p_add.set_defaults(func=cmd_add)
+    p_list = sub.add_parser(&quot;list&quot;, help=&quot;List open tasks.&quot;)
+    p_list.set_defaults(func=cmd_list)
+    p_done = sub.add_parser(&quot;done&quot;, help=&quot;Mark a task done (removes it).&quot;)
+    p_done.add_argument(&quot;task_id&quot;, type=int, help=&quot;Numeric task id from `list`.&quot;)
+    p_done.set_defaults(func=cmd_done)
+    return p
+
+
+def main(argv: list[str] | None = None) -&gt; int:
+    parser = build_parser()
+    args = parser.parse_args(argv)
+    return int(args.func(args) or 0)
+
+
+if __name__ == &quot;__main__&quot;:
+    raise SystemExit(main())
+</code></pre>
+    </div>
+    <p class="note">The delivered source is <strong>118 lines</strong> — a single file, zero third-party imports (argparse / json / os / sys / pathlib only). Atomic writes via write-temp + <code>os.replace</code>.</p>
+  </section>
+
+  <section>
+    <h2><span class="n">4</span>Tests prove it</h2>
+    <p class="note" style="margin-top:0;margin-bottom:14px;">Captured verbatim from <code>make test</code> — <code>python3 -m unittest discover -s tests -v</code> inside <code>python:3-alpine</code>, run against a clean throwaway checkout of <code>origin/r1/todo-cli</code>:</p>
+    <pre class="term">test_add_then_list_then_done (test_todo.TodoCliSubprocessTests.test_add_then_list_then_done) ... ok
+test_add_persists_task_with_id (test_todo.TodoLibTests.test_add_persists_task_with_id) ... ok
+test_add_rejects_empty_text (test_todo.TodoLibTests.test_add_rejects_empty_text) ... ok
+test_done_removes_task (test_todo.TodoLibTests.test_done_removes_task) ... ok
+test_done_unknown_id_errors (test_todo.TodoLibTests.test_done_unknown_id_errors) ... ok
+test_ids_are_monotonic_across_cycles (test_todo.TodoLibTests.test_ids_are_monotonic_across_cycles) ... ok
+test_list_empty_store (test_todo.TodoLibTests.test_list_empty_store) ... ok
+test_list_shows_open_tasks_with_ids (test_todo.TodoLibTests.test_list_shows_open_tasks_with_ids) ... ok
+
+----------------------------------------------------------------------
+Ran 8 tests in 0.682s
+
+OK</pre>
+  </section>
+
+  <section>
+    <h2><span class="n">5</span>Verify it yourself</h2>
+    <table class="verify">
+      <tr>
+        <th>Pull request</th>
+        <td>
+          <a href="https://github.com/coffeebreakerboy-sys/todo/pull/92">https://github.com/coffeebreakerboy-sys/todo/pull/92</a><br>
+          <span style="display:inline-block;margin-top:6px;">State <span class="open">OPEN</span> &nbsp; CI <span class="ci">✓ AI review (free) — SUCCESS</span></span>
+        </td>
+      </tr>
+      <tr>
+        <th>Reproduce green</th>
+        <td><code>gh repo clone coffeebreakerboy-sys/todo &amp;&amp; cd todo &amp;&amp; git checkout r1/todo-cli &amp;&amp; make test</code></td>
+      </tr>
+      <tr>
+        <th>Use the CLI</th>
+        <td><code>cd rung1/todo-cli &amp;&amp; python3 todo.py add "ship v1" &amp;&amp; python3 todo.py list &amp;&amp; python3 todo.py done 1</code></td>
+      </tr>
+      <tr>
+        <th>This page</th>
+        <td>Served live over HTTP (responds <strong>200 OK</strong>) as proof it is a real, self-contained artifact — open it, read the code, click through to the PR.</td>
+      </tr>
+    </table>
+  </section>
+
+  <footer>
+    <div class="rr">Proxy-verified REAL &amp; green (Reality Rule); awaiting the CEO's approval.</div>
+    <div class="studio">Hermes Delivery Studio</div>
+  </footer>
+
 </div>
-  </section>
-  <footer>Auto-generated by the Project Bridge visibility pipeline · source of truth = the Hermes boards</footer>
-</div></body></html>
+</body>
+</html>

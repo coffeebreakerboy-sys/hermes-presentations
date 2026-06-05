@@ -267,14 +267,14 @@ h4,.h4{font-size:22px;line-height:1.3;font-weight:600;margin:0 0 8px}
     <p class="hc-lede" style="margin-bottom:10px">The delivery studio runs on a macOS host. Hermes Agent v0.15.1 orchestrates everything through profiles, kanban dispatch, and three memory layers.</p>
     <svg viewBox="0 0 900 340" style="width:100%;max-width:900px" xmlns="http://www.w3.org/2000/svg">
       <defs>
-        <linearGradient id="gDaler" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#6b9fff"/><stop offset="100%" stop-color="#3b6cff"/></linearGradient>
+        <linearGradient id="gCeo" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#6b9fff"/><stop offset="100%" stop-color="#3b6cff"/></linearGradient>
         <linearGradient id="gLarry" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#7ed3a4"/><stop offset="100%" stop-color="#4a9e7a"/></linearGradient>
         <linearGradient id="gLeads" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#64dfdf"/><stop offset="100%" stop-color="#3aa8a8"/></linearGradient>
       </defs>
 
-      <!-- Daler -->
-      <rect x="360" y="5" width="180" height="44" rx="8" fill="url(#gDaler)" opacity=".9"/>
-      <text x="450" y="33" fill="#fff" font-family="'JetBrains Mono',monospace" font-size="13" font-weight="700" text-anchor="middle">DALER (CEO)</text>
+      <!-- the CEO -->
+      <rect x="360" y="5" width="180" height="44" rx="8" fill="url(#gCeo)" opacity=".9"/>
+      <text x="450" y="33" fill="#fff" font-family="'JetBrains Mono',monospace" font-size="13" font-weight="700" text-anchor="middle">CEO (CEO)</text>
 
       <!-- Larry -->
       <rect x="360" y="65" width="180" height="40" rx="8" fill="url(#gLarry)" opacity=".9"/>
@@ -476,7 +476,7 @@ h4,.h4{font-size:22px;line-height:1.3;font-weight:600;margin:0 0 8px}
 <span class="cm"># SCHEDULE            JOB               STATUS     RUNS   NEXT</span>
 <span class="fn">0 4 * * *</span>           gbrain-dream      <span class="st">OK</span>         2      jun-03 04:00  <span class="cm"># nightly dream cycle (consolidation)</span>
 <span class="fn">*/15 * * * *</span>        gbrain-maintain    <span class="st">OK</span>         155    in 8m          <span class="cm"># embedding maintenance</span>
-<span class="fn">0 */4 * * *</span>         delivery-digest    <span class="st">OK</span>         6      in 1.5h        <span class="cm"># Discord — Daler digest (discord:#)</span>
+<span class="fn">0 */4 * * *</span>         delivery-digest    <span class="st">OK</span>         6      in 1.5h        <span class="cm"># Discord — the CEO digest (discord:#)</span>
 <span class="fn">every 30m</span>           health-watchdog    <span class="st">OK</span>         57     in 17m         <span class="cm"># Discord — system health</span>
 <span class="fn">every 30m</span>           larry-heartbeat    <span class="st">OK</span>         0      in 24m         <span class="cm"># COO board monitor (new)</span>
 <span class="fn">0 5 * * 1</span>           creed-check        <span class="st">-</span>          0      jun-08         <span class="cm"># weekly founder's creed audit</span>
@@ -538,7 +538,7 @@ h4,.h4{font-size:22px;line-height:1.3;font-weight:600;margin:0 0 8px}
       <div class="hc-card hc-card-green">
         <div class="lbl">delivery pipeline flow</div>
         <div class="val" style="font-size:13px;color:var(--hc-green)">idea → brief → PR → merge → verify</div>
-        <div class="desc">Daler's idea → Larry gates → kanban dispatch → CTO builds in worktree → PR with CI + e2e → review → merge → deploy (revenue-gated) → verify.</div>
+        <div class="desc">the CEO's idea → Larry gates → kanban dispatch → CTO builds in worktree → PR with CI + e2e → review → merge → deploy (revenue-gated) → verify.</div>
       </div>
     </div>
     <div class="hc-footer"><span>github · 11 repos · pipeline active</span><span>08 / 10</span></div>
