@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>[todo #96] DSv2 canary: minimal Todo API (health + CRUD + tests + CI) — Verifiable Delivery Report</title><style>:root{--bg:#f4f6fb;--card:#ffffff;--ink:#1a2030;--muted:#5d6678;--line:#e6e9f2;
+  --brand:#5b54e6;--brand2:#8a3ffc;--green:#1f9d57;--greenbg:#e6f7ee;
+  --amber:#854d0e;--amberbg:#fef9c3;--code-bg:#0d1117;--code-ink:#d7dde7;}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+  line-height:1.6;color:var(--ink);background:var(--bg);-webkit-font-smoothing:antialiased}
+.container{max-width:920px;margin:0 auto;padding:0 20px 56px}
+a{color:var(--brand);font-weight:600}
+header{background:linear-gradient(135deg,#5b54e6 0%,#8a3ffc 55%,#b14cff 100%);color:#fff;
+  border-radius:0 0 26px 26px;padding:46px 34px 38px;margin-bottom:30px;
+  box-shadow:0 16px 40px rgba(91,84,230,.28)}
+header h1{font-size:2rem;font-weight:800;line-height:1.15;margin-bottom:.5rem;letter-spacing:-.5px}
+.subtitle{font-size:1.05rem;opacity:.93;font-weight:500}
+.meta{margin-top:1rem;font-size:.82rem;opacity:.92;font-family:ui-monospace,Menlo,monospace;
+  background:rgba(255,255,255,.14);display:inline-block;padding:8px 14px;border-radius:9px;
+  border:1px solid rgba(255,255,255,.22)}
+.section{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:26px 30px;
+  margin-bottom:24px;box-shadow:0 2px 14px rgba(26,32,48,.04)}
+h2{color:var(--ink);font-size:1.32rem;font-weight:750;margin-bottom:1.05rem;letter-spacing:-.3px;
+  display:flex;align-items:center;gap:10px}
+h2 .n{font-size:.78rem;font-weight:700;color:#fff;background:var(--brand);width:26px;height:26px;
+  border-radius:8px;display:inline-flex;align-items:center;justify-content:center;flex:0 0 auto}
+h3{color:#334155;font-size:1.05rem;margin:1.1rem 0 .55rem}
+.crit{display:flex;gap:14px;padding:13px 0;border-bottom:1px solid var(--line)}
+.crit:last-of-type{border-bottom:none}
+.check{flex:0 0 auto;width:28px;height:28px;border-radius:50%;background:var(--greenbg);
+  color:var(--green);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:15px}
+.crit .ct{font-weight:650}
+.crit .cd{color:var(--muted);font-size:.92rem}
+.crit code{background:#eef0f7;padding:1px 6px;border-radius:5px;font-size:.82rem}
+.pills{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px}
+.pill{font-size:.82rem;font-weight:650;padding:7px 14px;border-radius:999px;
+  background:var(--greenbg);color:var(--green);border:1px solid #c7ecd6}
+.pill.b{background:#eceafe;color:#5b54e6;border-color:#d7d3fb}
+.pill.k{background:#eef1f6;color:#3a4254;border-color:#dde2ec}
+.pill.w{background:var(--amberbg);color:var(--amber);border-color:#f5e6a8}
+figure{margin:0 0 1rem}
+.shots{display:flex;flex-wrap:wrap;gap:1rem;margin-top:.5rem}
+.shot{flex:1;min-width:280px}
+.shot img{width:100%;display:block;border-radius:12px;border:1px solid #232b39;
+  box-shadow:0 12px 36px rgba(13,17,23,.32)}
+.shot .cap{font-size:.8rem;color:var(--muted);margin-top:.5rem;text-align:center}
+.codewrap{background:var(--code-bg);border-radius:12px;overflow:hidden;border:1px solid #1f2632;
+  margin-bottom:1rem}
+.codebar{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 16px;
+  background:#11161f;border-bottom:1px solid #1f2632;font-size:.78rem;color:#8b96a8;
+  font-family:ui-monospace,Menlo,monospace}
+.codebar a{color:#79c0ff;text-decoration:none;font-weight:600;white-space:nowrap}
+pre.code{margin:0;max-height:480px;overflow:auto;padding:18px 20px;
+  font-family:ui-monospace,'SF Mono',Menlo,Consolas,monospace;font-size:.81rem;line-height:1.6;
+  color:var(--code-ink);tab-size:4;white-space:pre}
+pre.term{margin:0;background:#0b0f17;color:#d7dde7;border-radius:12px;border:1px solid #1f2632;
+  padding:18px 20px;overflow:auto;font-family:ui-monospace,'SF Mono',Menlo,Consolas,monospace;
+  font-size:.81rem;line-height:1.6;white-space:pre}
+.note{color:var(--muted);font-size:.9rem;margin:.85rem 0 0}
+table{width:100%;border-collapse:collapse;margin:.5rem 0;font-size:.92rem}
+th,td{text-align:left;padding:.75rem .75rem;border-bottom:1px solid var(--line);vertical-align:top}
+th{color:var(--muted);font-weight:600;font-size:.78rem;text-transform:uppercase;letter-spacing:.5px;width:150px}
+table code{background:#0d1117;color:#d7dde7;padding:2px 8px;border-radius:6px;font-size:.8rem;
+  display:inline-block;line-height:1.7;word-break:break-all}
+.ci{display:inline-flex;align-items:center;gap:6px;color:var(--green);font-weight:650}
+.ci.fail{color:#c0392b}
+.open{display:inline-block;font-weight:700;color:var(--green);background:var(--greenbg);
+  padding:2px 10px;border-radius:999px;font-size:.82rem;border:1px solid #c7ecd6}
+.rung{margin-bottom:2.2rem}
+.rung + .rung{border-top:1px solid var(--line);padding-top:1.4rem}
+footer{text-align:center;color:var(--muted);font-size:.9rem;padding:1.2rem 1rem}
+footer .rr{display:inline-block;background:var(--greenbg);color:var(--green);font-weight:650;
+  padding:9px 18px;border-radius:999px;border:1px solid #c7ecd6;margin-bottom:10px}
+footer .studio{font-weight:700;color:#3a4254;letter-spacing:.3px}
+ul{padding-left:1.25rem}li{margin:.3rem 0}
+@media (max-width:560px){header h1{font-size:1.55rem}.section{padding:22px 18px}th{width:auto}}</style></head><body>
+<header><div class="container" style="padding-top:0;padding-bottom:0;">
+  <h1>[todo #96] DSv2 canary: minimal Todo API (health + CRUD + tests + CI)</h1>
+  <div class="subtitle">Stage report — Review</div>
+  <div class="meta">Hermes Delivery Studio · family <strong>todo</strong>
+    &nbsp;·&nbsp; 2026-06-05 &nbsp;·&nbsp; proxy-verified &nbsp;·&nbsp; cost <strong>$0</strong></div>
+</div></header>
+<div class="container">
+  <div class="rung">
+<section class="section"><h2><span class="n">1</span>Result at a glance</h2><div class="crit"><div class="check">✓</div><div><div class="ct">Delivered</div><div class="cd">VERIFIED by proxy-CEO. Deliverable shipped: PR #95 (https://github.com/coffeebreakerboy-sys/todo/pull/95), branch feat/t_96611e14 — FastAPI /health + POST/GET /todos + pytest + Makefile + GH Actions CI. CI &#x27;test&#x27; = PASS (green). app/main.py + tests/test_app.py inspected: real impl + real assertions. Card was auto-blocked only because Run-2 respawn crashed (pid not alive) AFTER Run-1 already shippe</div></div></div><div class="pills"><span class="pill b">PR OPEN</span><span class="pill">CI green</span></div></section>
+<section class="section"><h2><span class="n">3</span>The actual code</h2><div class="codewrap"><div class="codebar"><span>.github/workflows/ci.yml · 18 line(s)</span><a href="https://github.com/coffeebreakerboy-sys/todo/blob/feat/t_96611e14/.github/workflows/ci.yml" rel="noopener">View on GitHub ↗</a></div><pre class="code"><code>name: CI
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: &quot;3.11&quot;
+      - name: Run tests
+        run: make test
+</code></pre></div><div class="codewrap"><div class="codebar"><span>Makefile · 10 line(s)</span><a href="https://github.com/coffeebreakerboy-sys/todo/blob/feat/t_96611e14/Makefile" rel="noopener">View on GitHub ↗</a></div><pre class="code"><code>install:
+	pip install -r requirements.txt
+
+test:
+	pip install -r requirements.txt
+	PYTHONPATH=. pytest -q
+
+run:
+	uvicorn app.main:app
+</code></pre></div><div class="codewrap"><div class="codebar"><span>README.md · 16 line(s)</span><a href="https://github.com/coffeebreakerboy-sys/todo/blob/feat/t_96611e14/README.md" rel="noopener">View on GitHub ↗</a></div><pre class="code"><code># Todo API
+
+Minimal Todo API built with FastAPI. In-memory store; health, create, and list endpoints.
+
+## Run
+
+```bash
+make run
+```
+
+## Test
+
+```bash
+make test
+```
+</code></pre></div><div class="codewrap"><div class="codebar"><span>app/__init__.py · 1 line(s)</span><a href="https://github.com/coffeebreakerboy-sys/todo/blob/feat/t_96611e14/app/__init__.py" rel="noopener">View on GitHub ↗</a></div><pre class="code"><code></code></pre></div><div class="codewrap"><div class="codebar"><span>app/main.py · 29 line(s)</span><a href="https://github.com/coffeebreakerboy-sys/todo/blob/feat/t_96611e14/app/main.py" rel="noopener">View on GitHub ↗</a></div><pre class="code"><code>from fastapi import FastAPI
+from pydantic import BaseModel
+from typing import List
+
+app = FastAPI()
+
+todos: List[&quot;Todo&quot;] = []
+
+class TodoCreate(BaseModel):
+    title: str
+
+class Todo(BaseModel):
+    id: int
+    title: str
+
+@app.get(&quot;/health&quot;)
+def health():
+    return {&quot;status&quot;: &quot;ok&quot;}
+
+@app.post(&quot;/todos&quot;, response_model=Todo)
+def create_todo(todo: TodoCreate):
+    new = Todo(id=len(todos) + 1, title=todo.title)
+    todos.append(new)
+    return new
+
+@app.get(&quot;/todos&quot;, response_model=List[Todo])
+def list_todos():
+    return todos
+</code></pre></div><div class="codewrap"><div class="codebar"><span>requirements.txt · 5 line(s)</span><a href="https://github.com/coffeebreakerboy-sys/todo/blob/feat/t_96611e14/requirements.txt" rel="noopener">View on GitHub ↗</a></div><pre class="code"><code>fastapi
+uvicorn
+httpx
+pytest
+</code></pre></div><p class="note">+4 more changed file(s) in the PR (lockfiles/generated/oversized omitted) — see the full diff on GitHub.</p></section>
+<section class="section"><h2><span class="n">4</span>Tests prove it</h2><p>CI check <strong>test</strong>: <span class="ci">passed ✓ (CI is green)</span> &nbsp;<a href="https://github.com/coffeebreakerboy-sys/todo/actions/runs/27007554501/job/79702843891">view CI run ↗</a></p><p class="note">No raw test log was captured by the worker; the CI conclusion above is the live status from GitHub.</p></section>
+<section class="section"><h2><span class="n">5</span>Verify it yourself</h2><table><tr><th>Pull request</th><td><a href="https://github.com/coffeebreakerboy-sys/todo/pull/95">https://github.com/coffeebreakerboy-sys/todo/pull/95</a><br><span style="display:inline-block;margin-top:6px;">State <span class="open">OPEN</span> &nbsp; CI <span class="ci">✓ green</span></span></td></tr><tr><th>Reproduce green</th><td><code>gh repo clone coffeebreakerboy-sys/todo &amp;&amp; cd todo &amp;&amp; git checkout feat/t_96611e14 &amp;&amp; make test</code></td></tr></table></section>
+</div>
+  <footer>
+    <div class="rr">Proxy-verified REAL &amp; green (Reality Rule); awaiting the CEO's approval.</div>
+    <div class="studio">Hermes Delivery Studio</div>
+  </footer>
+</div></body></html>
