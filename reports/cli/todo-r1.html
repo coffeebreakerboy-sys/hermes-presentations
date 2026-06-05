@@ -53,7 +53,7 @@ ul{margin:.5rem 0 .5rem 1.4rem}li{margin:.3rem 0}
 
 <div class="section">
   <h2>Proof — the CLI working + tests green</h2>
-  <p>A real run on the delivered code (<code>origin/r1/todo-cli</code> @ <code>52b6fe3</code>): three tasks added, listed, one completed, listed again — then the no-theater gate (<code>make test</code> in Docker).</p>
+  <p>A real run on the delivered code (branch <code>r1/todo-cli</code>, PR #92): three tasks added, listed, one completed, listed again — then the no-theater gate (<code>make test</code> in Docker).</p>
   <div class="shot">
     <img src="todo-r1-demo.png" alt="Terminal screenshot: todo CLI add/list/done demo and make test 8/8 passing">
     <div class="cap">Live terminal capture — <code>add</code>/<code>list</code>/<code>done</code> behaving correctly, and all 8 unit tests passing in Docker (zero skips).</div>
@@ -64,7 +64,7 @@ ul{margin:.5rem 0 .5rem 1.4rem}li{margin:.3rem 0}
   <h2>Verification (Reality Rule — proxy-checked, not self-graded)</h2>
   <table>
     <tr><th>Pull request</th><td><a href="https://github.com/coffeebreakerboy-sys/todo/pull/92">coffeebreakerboy-sys/todo #92</a> (5 commits, +336) — OPEN, mergeable</td></tr>
-    <tr><th>Source commit</th><td><code>52b6fe3</code> on branch <code>r1/todo-cli</code></td></tr>
+    <tr><th>Source branch</th><td><code>r1/todo-cli</code> (the PR #92 branch)</td></tr>
     <tr><th>Tests</th><td><b>8/8 passing</b> in Docker (<code>python:3-alpine</code>, <code>python3 -m unittest</code>) — add/list/done, empty store, error cases, monotonic ids, end-to-end subprocess. <b>Zero</b> skip/xfail/disable markers.</td></tr>
     <tr><th>AI review</th><td>Free GitHub-Models reviewer ran (success); its one finding was addressed by the worker (no won't-fix dodge). Deliverable code drew no findings.</td></tr>
     <tr><th>Reproduce it</th><td><code>gh repo clone coffeebreakerboy-sys/todo &amp;&amp; cd todo &amp;&amp; git checkout r1/todo-cli &amp;&amp; make test</code></td></tr>
